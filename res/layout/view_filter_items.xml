@@ -1,28 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="match_parent"
     android:background="#fff"
     android:orientation="vertical" >
 
     <TextView
+        android:id="@+id/filterText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
+        android:background="#fff"
+        android:gravity="center_vertical"
+        android:paddingBottom="18dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="18dp"
+        android:paddingTop="18dp"
+        android:textColor="#000"
+        android:textSize="20sp" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="#CCCCCC" />
+
+    <TextView
+        android:id="@+id/by_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:padding="15dp"
         android:text="@string/title"
         android:textSize="18sp" />
 
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#CCCCCC"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp" />
+        android:background="#CCCCCC" />
 
     <TextView
+        android:id="@+id/by_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="10dp"
+        android:clickable="true"
+        android:padding="15dp"
         android:text="@string/created_at"
         android:textSize="18sp" />
 

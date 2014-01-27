@@ -13,6 +13,7 @@
     <!-- Gallery Screen -->
     <string name="gallery">Gallery</string>
     <string name="title_activity_map">MapActivity</string>
+    <string name="sort_by">Sort By</string>
     
 
     <!-- Map -->

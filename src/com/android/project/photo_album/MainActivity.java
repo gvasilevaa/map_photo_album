@@ -33,6 +33,7 @@ public class MainActivity extends FragmentActivity {
 	private ArrayList<AlbumItem> items;
 	private AlbumGridAdapter gridAdapter;
 	private AlbumListAdapter listAdapter;
+	private Cursor c=null;
 
 	/* ------------------- flags ----------------- */
 	private boolean menuTable = true;
@@ -99,7 +100,7 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	private void getPlaces() {
-		Cursor c = null;
+		
 		try {
 			c = AlbumItemManager.getInstance().getAllItems();
 		} catch (DBException e) {
@@ -194,26 +195,71 @@ public class MainActivity extends FragmentActivity {
 
 	public void sortOnClick(View view) {
 
-		final String[] items = new String[] { "Item 1", "Item 2", "Item 3",
-				"Item 4" };
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("Sort by");
-
+		builder.setCancelable(true);
 		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View filterTitleView = inflater.inflate(R.layout.view_filter_items,
-				null);
+		View sortByView = inflater.inflate(R.layout.view_filter_items, null);
 
-		builder.setItems(items, new DialogInterface.OnClickListener() {
+		// View customTitleView = inflater.inflate(
+		// R.layout.view_filter_title, null);
 
+		((TextView) sortByView.findViewById(R.id.filterText))
+				.setText(getResources().getString(R.string.sort_by));
+		builder.setView(sortByView);
+		// builder.setCustomTitle(customTitleView);
+
+		TextView sortByName = (TextView) sortByView.findViewById(R.id.by_name);
+		TextView sortByDate = (TextView) sortByView.findViewById(R.id.by_date);
+		
+		sortByDate.setOnClickListener(new View.OnClickListener() {
 			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				// TODO Auto-generated method stub
-				TextView txt = (TextView) findViewById(R.id.txt);
-				txt.setText(items[which]);
+			public void onClick(View v) {
+				//builder.
+				sortByDate();
+
 			}
 		});
 
-		builder.show();
+		sortByName.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				sortByName();
+
+			}
+		});
+
+		builder.create().show();
+
+	}
+
+	protected void sortByDate() {
+		
+		try {
+			c = AlbumItemManager.getInstance().getByDateItems();
+		} catch (DBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		c.moveToFirst();
+		if (c != null && c.getCount() > 0) {
+			items = new ArrayList<AlbumItem>();
+			for (int i = 0; i < c.getCount(); i++) {
+				AlbumItem item = new AlbumItem(c.getString(1), c.getString(2),
+						c.getString(3), c.getString(4), c.getString(5),
+						c.getString(6), c.getString(7));
+				items.add(item);
+				c.moveToNext();
+			}
+
+			
+			populateItems();
+		}
+
+	}
+
+	protected void sortByName() {
+
 	}
 
 }

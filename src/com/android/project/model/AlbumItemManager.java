@@ -68,6 +68,41 @@ public class AlbumItemManager {
 				"select * from " + AlbumItem.SQL_TABLE_NAME);
 	}
 
+	/*
+	 * Get sorted Items by name
+	 * */
+	public Cursor getByNameItems() throws DBException {
+
+		return DBConnector.getInstance().query(
+				AlbumItem.SQL_TABLE_NAME,
+				new String[] { AlbumItem.GET_COLUMNS.ID.getName() + " as _id",
+						AlbumItem.GET_COLUMNS.NAME.getName(),
+						AlbumItem.GET_COLUMNS.THUMBNAIL.getName(),
+						AlbumItem.GET_COLUMNS.DESCRIPTION.getName(),
+						AlbumItem.GET_COLUMNS.LONGITUDE.getName(),
+						AlbumItem.GET_COLUMNS.LATITUDE.getName(),
+						AlbumItem.GET_COLUMNS.CREATED_AT.getName() },
+						null,null, AlbumItem.GET_COLUMNS.NAME.getName() + " ASC");
+	}
+
+	/*
+	 * Get sorted Items by name
+	 * */
+	public Cursor getByDateItems() throws DBException {
+
+		return DBConnector.getInstance().query(
+				AlbumItem.SQL_TABLE_NAME,
+				new String[] { AlbumItem.GET_COLUMNS.ID.getName() + " as _id",
+						AlbumItem.GET_COLUMNS.NAME.getName(),
+						AlbumItem.GET_COLUMNS.THUMBNAIL.getName(),
+						AlbumItem.GET_COLUMNS.DESCRIPTION.getName(),
+						AlbumItem.GET_COLUMNS.LONGITUDE.getName(),
+						AlbumItem.GET_COLUMNS.LATITUDE.getName(),
+						AlbumItem.GET_COLUMNS.CREATED_AT.getName() },
+						null,null, AlbumItem.GET_COLUMNS.CREATED_AT.getName() + " desc");
+	}
+
+	
 	/**
 	 * Deletes all Items from the local DB
 	 * 
