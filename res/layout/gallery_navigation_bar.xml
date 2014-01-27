@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!-- Navigation bar -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/user_layout_navigation"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:layout_alignParentTop="true"
+    android:background="@drawable/naviation_bar_bg"
+    android:orientation="horizontal" >
+
+    <ImageButton
+        android:id="@+id/menu"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentLeft="true"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/naviation_bar_bg"
+        android:onClick="menuOnClick"
+        android:contentDescription="@drawable/menu_icon_states"
+        android:padding="10dp"
+        android:src="@drawable/menu_icon_states" />
+
+    <TextView
+        android:id="@+id/navigationCaption"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/menu"
+        android:background="@drawable/naviation_bar_bg"
+        android:clickable="true"
+        android:gravity="center_vertical"
+        android:padding="10dp"
+        android:text="@string/gallery"
+        android:textColor="#fff"
+        android:textSize="22sp" />
+
+    <ImageButton
+        android:id="@+id/sort_by"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="center_vertical"
+        android:background="@drawable/naviation_bar_bg"
+        android:contentDescription="@drawable/menu_icon"
+        android:onClick="sortOnClick"
+        android:padding="10dp"
+        android:src="@drawable/menu_icon" />
+
+</RelativeLayout> <!-- End of navigation bar -->
+

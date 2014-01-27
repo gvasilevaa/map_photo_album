@@ -1,0 +1,31 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".MainActivity" >
+
+    <include layout="@layout/gallery_navigation_bar" />
+
+    <GridView
+        android:id="@+id/gridView_gallery"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#fff"
+        android:horizontalSpacing="5dp"
+        android:numColumns="4"
+        android:padding="10dp"
+        android:verticalSpacing="5dp"
+        android:visibility="visible" >
+    </GridView>
+
+    <ListView
+        android:id="@+id/listView_gallery"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#fff"
+        android:padding="10dp"
+        android:visibility="gone" >
+    </ListView>
+
+</LinearLayout>

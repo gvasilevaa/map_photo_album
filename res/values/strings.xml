@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Photo_Album</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="imageContentDescription">Image</string>
+
+    <!-- Error messages -->
+    <string name="exc_error">Error</string>
+    <string name="exc_ok">OK</string>
+
+    <!-- Gallery Screen -->
+    <string name="gallery">Gallery</string>
+    <string name="title_activity_map">MapActivity</string>
+    
+
+    <!-- Map -->
+    <string name="map">Map</string>
+    <string name="title_activity_edit_details">EditDetailsActivity</string>
+    
+    <!-- Edit Screen -->
+	<string name="title">Title</string>
+	<string name="description">Desctioption</string>
+	<string name="created_at">Created At</string>
+	<string name="address">Address</string>
+	
+</resources>
