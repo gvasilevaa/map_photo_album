@@ -3,16 +3,22 @@ package com.android.project.photo_album;
 import java.util.ArrayList;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.preference.DialogPreference;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
+import android.widget.AdapterView;
 import android.widget.GridView;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,9 +27,11 @@ import com.android.project.db.DBConnector;
 import com.android.project.db.DBException;
 import com.android.project.model.AlbumItem;
 import com.android.project.model.AlbumItemManager;
+import com.android.project.model.ApplicationConstants;
 import com.android.project.tasks.GetUserCheckInsTask;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends FragmentActivity implements
+		ApplicationConstants {
 
 	private final static String USER_PLACES = "http://int.f1rstt.com/api/users/me/checkins?auth_token=uojWKxf57QhqhxipAWqK&limit=10&page=1";
 	private AlertDialog alert;
@@ -33,10 +41,10 @@ public class MainActivity extends FragmentActivity {
 	private ArrayList<AlbumItem> items;
 	private AlbumGridAdapter gridAdapter;
 	private AlbumListAdapter listAdapter;
-	private Cursor c=null;
+	private Cursor c = null;
+	private LayoutInflater inflater;
 
 	/* ------------------- flags ----------------- */
-	private boolean menuTable = true;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,8 +55,35 @@ public class MainActivity extends FragmentActivity {
 		gridView = (GridView) findViewById(R.id.gridView_gallery);
 		listView = (ListView) findViewById(R.id.listView_gallery);
 
+		inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
 		initDatabase();
 
+		listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+			public boolean onItemLongClick(AdapterView<?> parentView,
+					View childView, int position, long id) {
+				Intent i = new Intent(MainActivity.this,
+						EditDetailsActivity.class);
+				i.putExtra(ITEMS, items.get(position));
+				startActivity(i);
+
+				return true;
+			}
+		});
+
+		gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
+			public boolean onItemLongClick(AdapterView<?> parentView,
+					View childView, int position, long id) {
+
+				Intent i = new Intent(MainActivity.this,
+						EditDetailsActivity.class);
+				i.putExtra(ITEMS, items.get(position));
+				startActivity(i);
+				return true;
+			}
+		});
 	}
 
 	@Override
@@ -100,7 +135,7 @@ public class MainActivity extends FragmentActivity {
 	}
 
 	private void getPlaces() {
-		
+
 		try {
 			c = AlbumItemManager.getInstance().getAllItems();
 		} catch (DBException e) {
@@ -178,26 +213,77 @@ public class MainActivity extends FragmentActivity {
 
 	/* ----------------- OnClick Methods ------------------- */
 	public void menuOnClick(View view) {
-		if (menuTable) {
-			menuTable = false;
-			gridView.setVisibility(View.GONE);
-			listView.setVisibility(View.VISIBLE);
-			// view.setBackgroundResource(R.drawable.list_icon);
-			view.setSelected(true);
-		} else {
-			menuTable = true;
-			gridView.setVisibility(View.VISIBLE);
-			listView.setVisibility(View.GONE);
-			view.setSelected(false);
-			// view.setBackgroundResource(R.drawable.table_icon);
-		}
+
+		final Dialog dialogMenu = new Dialog(this, R.style.CustomDialog);
+
+		View settingsView = inflater.inflate(R.layout.gallery_settings_layout,
+				null);
+
+		((TextView) settingsView.findViewById(R.id.title))
+				.setText(getResources().getString(R.string.view_as));
+
+		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+
+		dialogMenu.setContentView(settingsView, params);
+
+		TextView viewAsTable = (TextView) settingsView.findViewById(R.id.grid);
+		TextView viewAsList = (TextView) settingsView.findViewById(R.id.list);
+		TextView viewAsMap = (TextView) settingsView.findViewById(R.id.map);
+
+		viewAsTable.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				dialogMenu.dismiss();
+				gridView.setVisibility(View.VISIBLE);
+				listView.setVisibility(View.GONE);
+
+			}
+		});
+
+		viewAsList.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				dialogMenu.dismiss();
+				gridView.setVisibility(View.GONE);
+				listView.setVisibility(View.VISIBLE);
+			}
+		});
+
+		viewAsMap.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				dialogMenu.dismiss();
+				Intent i = new Intent(MainActivity.this, MapActivity.class);
+				i.putExtra(ITEMS, items);
+				startActivity(i);
+			}
+		});
+
+		dialogMenu.show();
+
+		// if (menuTable) {
+		// menuTable = false;
+		// gridView.setVisibility(View.GONE);
+		// listView.setVisibility(View.VISIBLE);
+		// // view.setBackgroundResource(R.drawable.list_icon);
+		// view.setSelected(true);
+		// } else {
+		// menuTable = true;
+		// gridView.setVisibility(View.VISIBLE);
+		// listView.setVisibility(View.GONE);
+		// view.setSelected(false);
+		// // view.setBackgroundResource(R.drawable.table_icon);
+		// }
 	}
 
 	public void sortOnClick(View view) {
 
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setCancelable(true);
-		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		final Dialog dialog = new Dialog(this, R.style.CustomDialog);
+
 		View sortByView = inflater.inflate(R.layout.view_filter_items, null);
 
 		// View customTitleView = inflater.inflate(
@@ -205,16 +291,21 @@ public class MainActivity extends FragmentActivity {
 
 		((TextView) sortByView.findViewById(R.id.filterText))
 				.setText(getResources().getString(R.string.sort_by));
-		builder.setView(sortByView);
+		// builder.setView(sortByView);
 		// builder.setCustomTitle(customTitleView);
+
+		LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
+				LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+		dialog.setContentView(sortByView, params);
 
 		TextView sortByName = (TextView) sortByView.findViewById(R.id.by_name);
 		TextView sortByDate = (TextView) sortByView.findViewById(R.id.by_date);
-		
+
 		sortByDate.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				//builder.
+				// builder.
+				dialog.dismiss();
 				sortByDate();
 
 			}
@@ -224,17 +315,18 @@ public class MainActivity extends FragmentActivity {
 
 			@Override
 			public void onClick(View v) {
+				dialog.dismiss();
 				sortByName();
 
 			}
 		});
 
-		builder.create().show();
+		dialog.show();
 
 	}
 
 	protected void sortByDate() {
-		
+
 		try {
 			c = AlbumItemManager.getInstance().getByDateItems();
 		} catch (DBException e) {
@@ -252,13 +344,31 @@ public class MainActivity extends FragmentActivity {
 				c.moveToNext();
 			}
 
-			
 			populateItems();
 		}
 
 	}
 
 	protected void sortByName() {
+		try {
+			c = AlbumItemManager.getInstance().getByNameItems();
+		} catch (DBException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		c.moveToFirst();
+		if (c != null && c.getCount() > 0) {
+			items = new ArrayList<AlbumItem>();
+			for (int i = 0; i < c.getCount(); i++) {
+				AlbumItem item = new AlbumItem(c.getString(1), c.getString(2),
+						c.getString(3), c.getString(4), c.getString(5),
+						c.getString(6), c.getString(7));
+				items.add(item);
+				c.moveToNext();
+			}
+
+			populateItems();
+		}
 
 	}
 

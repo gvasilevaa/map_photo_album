@@ -16,10 +16,11 @@
         android:layout_alignParentLeft="true"
         android:layout_gravity="center_vertical"
         android:background="@drawable/naviation_bar_bg"
+        android:clickable="true"
         android:onClick="menuOnClick"
         android:contentDescription="@drawable/menu_icon_states"
         android:padding="10dp"
-        android:src="@drawable/menu_icon_states" />
+        android:src="@drawable/menu_icon" />
 
     <TextView
         android:id="@+id/navigationCaption"
@@ -28,13 +29,16 @@
         android:layout_toRightOf="@id/menu"
         android:background="@drawable/naviation_bar_bg"
         android:clickable="true"
-        android:gravity="center_vertical"
+        android:gravity="center"
+
         android:padding="10dp"
         android:text="@string/gallery"
         android:textColor="#fff"
+        android:textStyle="bold"
         android:textSize="22sp" />
 
-    <ImageButton
+   
+    <TextView
         android:id="@+id/sort_by"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
@@ -42,9 +46,18 @@
         android:layout_gravity="center_vertical"
         android:background="@drawable/naviation_bar_bg"
         android:contentDescription="@drawable/menu_icon"
+        android:clickable="true"
         android:onClick="sortOnClick"
         android:padding="10dp"
-        android:src="@drawable/menu_icon" />
+        android:gravity="center"
+        android:textColor="#fff"
+        android:textSize="18sp"
+        android:text="@string/sort_by" />
+     <View 
+        android:layout_width="1dp"
+        android:layout_height="match_parent"
+        android:layout_toLeftOf="@id/sort_by"
+        android:background="#F7F7F7"/>
 
 </RelativeLayout> <!-- End of navigation bar -->
 

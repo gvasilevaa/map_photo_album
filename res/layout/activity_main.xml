@@ -15,6 +15,7 @@
         android:horizontalSpacing="5dp"
         android:numColumns="4"
         android:padding="10dp"
+        android:longClickable="true"
         android:verticalSpacing="5dp"
         android:visibility="visible" >
     </GridView>
@@ -25,6 +26,7 @@
         android:layout_height="match_parent"
         android:background="#fff"
         android:padding="10dp"
+        android:longClickable="true"
         android:visibility="gone" >
     </ListView>
 

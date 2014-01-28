@@ -1,9 +1,6 @@
 package com.android.project.model;
 
-
-
 import android.database.Cursor;
-
 
 import com.android.project.db.DBConnector;
 import com.android.project.db.DBException;
@@ -70,7 +67,11 @@ public class AlbumItemManager {
 
 	/*
 	 * Get sorted Items by name
-	 * */
+	 */
+
+//	String name, String thumbnail, String latitude,
+//	String longitude, String address, String createdAt,
+//	String desctioption
 	public Cursor getByNameItems() throws DBException {
 
 		return DBConnector.getInstance().query(
@@ -78,16 +79,17 @@ public class AlbumItemManager {
 				new String[] { AlbumItem.GET_COLUMNS.ID.getName() + " as _id",
 						AlbumItem.GET_COLUMNS.NAME.getName(),
 						AlbumItem.GET_COLUMNS.THUMBNAIL.getName(),
-						AlbumItem.GET_COLUMNS.DESCRIPTION.getName(),
-						AlbumItem.GET_COLUMNS.LONGITUDE.getName(),
 						AlbumItem.GET_COLUMNS.LATITUDE.getName(),
-						AlbumItem.GET_COLUMNS.CREATED_AT.getName() },
-						null,null, AlbumItem.GET_COLUMNS.NAME.getName() + " ASC");
+						AlbumItem.GET_COLUMNS.LONGITUDE.getName(),
+						AlbumItem.GET_COLUMNS.ADDRESS.getName(),
+						AlbumItem.GET_COLUMNS.CREATED_AT.getName(),
+						AlbumItem.GET_COLUMNS.DESCRIPTION.getName() }, null,
+				null, AlbumItem.GET_COLUMNS.NAME.getName() + " ASC");
 	}
 
 	/*
 	 * Get sorted Items by name
-	 * */
+	 */
 	public Cursor getByDateItems() throws DBException {
 
 		return DBConnector.getInstance().query(
@@ -95,14 +97,14 @@ public class AlbumItemManager {
 				new String[] { AlbumItem.GET_COLUMNS.ID.getName() + " as _id",
 						AlbumItem.GET_COLUMNS.NAME.getName(),
 						AlbumItem.GET_COLUMNS.THUMBNAIL.getName(),
-						AlbumItem.GET_COLUMNS.DESCRIPTION.getName(),
-						AlbumItem.GET_COLUMNS.LONGITUDE.getName(),
 						AlbumItem.GET_COLUMNS.LATITUDE.getName(),
-						AlbumItem.GET_COLUMNS.CREATED_AT.getName() },
-						null,null, AlbumItem.GET_COLUMNS.CREATED_AT.getName() + " desc");
+						AlbumItem.GET_COLUMNS.LONGITUDE.getName(),
+						AlbumItem.GET_COLUMNS.ADDRESS.getName(),
+						AlbumItem.GET_COLUMNS.CREATED_AT.getName(),
+						AlbumItem.GET_COLUMNS.DESCRIPTION.getName()}, null,
+				null, AlbumItem.GET_COLUMNS.CREATED_AT.getName() + " desc");
 	}
 
-	
 	/**
 	 * Deletes all Items from the local DB
 	 * 

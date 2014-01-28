@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" >
+    
+    <ImageView 
+        android:id="@+id/marker"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/map_single_icon"
+        android:contentDescription="@string/imageContentDescription"
+        />
+    
+    <ImageView
+        android:id="@+id/imageClusterIcon" 
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/marker"
+        android:layout_alignRight="@id/marker"
+        android:layout_alignBottom="@id/marker"
+        android:layout_alignTop="@id/marker"
+        android:layout_marginBottom="12dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp"
+        android:scaleType="fitXY"
+        android:contentDescription="@string/imageContentDescription" />
+    
+</RelativeLayout>

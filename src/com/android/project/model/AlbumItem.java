@@ -1,5 +1,6 @@
 package com.android.project.model;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -12,7 +13,12 @@ import com.android.project.utils.StringUtils;
 
 import android.content.ContentValues;
 
-public class AlbumItem implements ApplicationConstants {
+public class AlbumItem implements ApplicationConstants, Serializable{
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 
 	public enum GET_COLUMNS {
 
