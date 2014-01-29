@@ -29,6 +29,9 @@ import com.android.project.model.AlbumItem;
 import com.android.project.model.AlbumItemManager;
 import com.android.project.model.ApplicationConstants;
 import com.android.project.tasks.GetUserCheckInsTask;
+import com.android.project.zoom.ZoomImagesActivity;
+
+;
 
 public class MainActivity extends FragmentActivity implements
 		ApplicationConstants {
@@ -82,6 +85,32 @@ public class MainActivity extends FragmentActivity implements
 				i.putExtra(ITEMS, items.get(position));
 				startActivity(i);
 				return true;
+			}
+		});
+
+		gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				Intent i = new Intent(MainActivity.this,
+						ZoomImagesActivity.class);
+				i.putExtra(ITEMS, items);
+				i.putExtra(POSITION, position);
+				startActivity(i);
+			}
+		});
+
+		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view,
+					int position, long id) {
+				Intent i = new Intent(MainActivity.this,
+						ZoomImagesActivity.class);
+				i.putExtra(ITEMS, items);
+				i.putExtra(POSITION, position);
+				startActivity(i);
 			}
 		});
 	}

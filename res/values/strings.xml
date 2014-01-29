@@ -17,13 +17,17 @@
     <string name="view_as">View as</string>
     <string name="grid">Table</string>
     <string name="list">List</string>
-   
 
     <!-- Map -->
     <string name="map">Map</string>
     <string name="title_activity_edit_details">EditDetailsActivity</string>
 
     <!-- Edit Screen -->
+    <string name="set">Set</string>
+    <string name="cancel">Cancel</string>
+    <string name="set_date">Set date</string>
+    <string name="info">Information</string>
+     <string name="save">Save</string>
     <string name="title">Title</string>
     <string name="description">Desctioption</string>
     <string name="created_at">Created At</string>

@@ -1,4 +1,4 @@
-package com.despark.f1rst.imagefetcher;
+package com.android.project.imagefetcher;
 
 /*
  * Copyright (C) 2012 The Android Open Source Project

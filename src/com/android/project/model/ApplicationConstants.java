@@ -25,6 +25,8 @@ public interface ApplicationConstants {
 	public static final String PLACE = "place";
 	public static final String CREATED_AT = "created_at";
 	
+	public static final String POSITION = "position";
+	
 	public static final String ITEMS = "items";
 
 }

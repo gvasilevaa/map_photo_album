@@ -2,8 +2,8 @@ package com.android.project.photo_album;
 
 import java.util.ArrayList;
 
+import com.android.project.imagefetcher.ImageFetcher;
 import com.android.project.model.AlbumItem;
-import com.despark.f1rst.imagefetcher.ImageFetcher;
 
 import android.content.Context;
 import android.support.v4.app.FragmentActivity;
@@ -29,7 +29,7 @@ public class AlbumListAdapter extends BaseAdapter {
 		inflater = (LayoutInflater) mContext
 				.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		mImageLoader = new ImageLoader();
-		mImageFetcher = com.despark.f1rst.imagefetcher.Utils.getImageFetcher(activity);
+		mImageFetcher = com.android.project.imagefetcher.Utils.getImageFetcher(activity);
 
 	}
 

@@ -13,8 +13,8 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
+import com.android.project.imagefetcher.ImageFetcher;
 import com.android.project.model.AlbumItem;
-import com.despark.f1rst.imagefetcher.ImageFetcher;
 
 public class AlbumGridAdapter extends BaseAdapter {
 
@@ -30,7 +30,7 @@ public class AlbumGridAdapter extends BaseAdapter {
 		mContext = context;
 		mData = list;
 		mImageLoader = new ImageLoader();
-		mImageFetcher = com.despark.f1rst.imagefetcher.Utils
+		mImageFetcher = com.android.project.imagefetcher.Utils
 				.getImageFetcher(activity);
 	}
 

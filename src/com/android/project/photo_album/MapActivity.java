@@ -1,12 +1,20 @@
 package com.android.project.photo_album;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Locale;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.location.Address;
+import android.location.Geocoder;
+
 import android.location.Location;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
@@ -20,6 +28,7 @@ import android.widget.ImageView;
 import com.android.project.model.AlbumItem;
 import com.android.project.model.ApplicationConstants;
 import com.android.project.tasks.DownloadImageTask;
+import com.android.project.tasks.GetAddressTask;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
 import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
@@ -44,6 +53,7 @@ public class MapActivity extends FragmentActivity implements
 	private GoogleMap mMap;
 	private LocationClient mLocationClient;
 	private ArrayList<AlbumItem> items;
+	private GetAddressTask getAddress;
 
 	private static final LocationRequest REQUEST = LocationRequest.create()
 			.setInterval(5 * 60 * 1000) // 5 mins
@@ -62,6 +72,17 @@ public class MapActivity extends FragmentActivity implements
 
 		items = (ArrayList<AlbumItem>) getIntent().getSerializableExtra(ITEMS);
 
+		mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+
+			@Override
+			public void onMapClick(LatLng point) {
+				Log.e("LAT", point.latitude + "");
+				Log.e("LON", point.longitude + "");
+				
+
+				getCityName(point);
+			}
+		});
 		// setUpMap();
 	}
 
@@ -142,8 +163,8 @@ public class MapActivity extends FragmentActivity implements
 	private void setUpMap() {
 
 		Location location = mLocationClient.getLastLocation();
-		double lat = location.getLatitude();
-		double lon = location.getLongitude();
+		double lat = Double.parseDouble(items.get(0).getLatitude());
+		double lon = Double.parseDouble(items.get(0).getLongitude());
 
 		mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,
 				lon), 15));
@@ -190,8 +211,8 @@ public class MapActivity extends FragmentActivity implements
 				markerOp.visible(true);
 				mMap.addMarker(markerOp);
 
-//				mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
-//						new LatLng(lat, lng), 15));
+				// mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
+				// new LatLng(lat, lng), 15));
 
 			}
 		};
@@ -217,6 +238,30 @@ public class MapActivity extends FragmentActivity implements
 		view.draw(canvas);
 
 		return bitmap;
+	}
+
+	/*-------- Get Address from geopoint ----------------------*/
+	public void getCityName(LatLng point) {
+		
+		getAddress = new GetAddressTask(point, MapActivity.this) {
+
+			@Override
+			protected void onPostExecute(String address) {
+				
+				getAddress = null;
+				if (address != null) {
+					//Log.e("CITY", address);
+					
+					Intent returnIntent = new Intent();
+					returnIntent.putExtra(ADDRESS, address);
+					setResult(RESULT_OK, returnIntent);        
+					finish();
+				}
+			}
+
+		};
+
+		getAddress.execute();
 	}
 
 }

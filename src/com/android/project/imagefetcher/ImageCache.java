@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.despark.f1rst.imagefetcher;
+package com.android.project.imagefetcher;
 
 import java.io.File;
 import java.io.IOException;

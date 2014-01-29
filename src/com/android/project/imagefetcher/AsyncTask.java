@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.despark.f1rst.imagefetcher;
+package com.android.project.imagefetcher;
 
 import java.util.ArrayDeque;
 import java.util.concurrent.BlockingQueue;

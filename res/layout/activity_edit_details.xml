@@ -2,21 +2,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#fff"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    android:padding="10dp"
     tools:context=".EditDetailsActivity" >
+
+     <include layout="@layout/edit_screen_bar" />
 
     <ImageView
         android:id="@+id/photo"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:layout_marginRight="10dp" 
-        android:layout_marginBottom="20dp"/>
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginBottom="20dp"
+        android:layout_marginRight="10dp"
+        android:scaleType="centerCrop" />
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:padding="10dp" >
 
         <TextView
             android:id="@+id/txt_title"
@@ -42,7 +46,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:padding="10dp" >
 
         <TextView
             android:id="@+id/txt_address"
@@ -62,13 +67,18 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/txt_address"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
             android:hint="@string/address"
-            android:inputType="textAutoCorrect" />
+            android:inputType="textAutoCorrect"
+            android:onClick="onAddressClick" />
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:padding="10dp" >
 
         <TextView
             android:id="@+id/txt_created_at"
@@ -88,13 +98,18 @@
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/txt_created_at"
+            android:cursorVisible="false"
+            android:focusable="false"
+            android:focusableInTouchMode="false"
             android:hint="@string/created_at"
-            android:inputType="textAutoCorrect" />
+            android:inputType="date"
+            android:onClick="showDatePickerDialog" />
     </RelativeLayout>
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        android:padding="10dp" >
 
         <TextView
             android:id="@+id/txt_description"

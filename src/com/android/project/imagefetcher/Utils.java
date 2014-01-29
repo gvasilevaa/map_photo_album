@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.despark.f1rst.imagefetcher;
+package com.android.project.imagefetcher;
 
-import com.despark.f1rst.imagefetcher.ImageCache.ImageCacheParams;
+import com.android.project.imagefetcher.ImageCache.ImageCacheParams;
 
 import android.annotation.TargetApi;
 import android.os.Build;
