@@ -14,7 +14,7 @@
         android:background="@drawable/naviation_bar_bg"
         android:clickable="true"
         android:padding="10dp"
-        android:text="@string/info"
+        android:text="@string/edit_details"
         android:textColor="#fff"
         android:textSize="22sp"
         android:textStyle="bold" />

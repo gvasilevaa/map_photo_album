@@ -1,8 +1,5 @@
 package com.android.project.zoom;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -10,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.android.project.imagefetcher.ImageFetcher;
 import com.android.project.imagefetcher.ImageWorker;
@@ -67,6 +65,7 @@ public class ZoomImageFragment extends Fragment implements ApplicationConstants 
 				R.layout.zoom_image_item, container, false);
 		this.imageView = (ImageView) zoomView.findViewById(R.id.zoom_image);
 
+		((TextView)zoomView.findViewById(R.id.navigationCaption)).setText("");
 		AlbumItem item = (AlbumItem) getArguments().getSerializable(ITEMS);
 		if (getArguments().get(ITEMS) != null) {
 			mImageFetcher.loadImage(item.getThumbnail(), imageView);

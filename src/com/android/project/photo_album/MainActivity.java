@@ -51,8 +51,9 @@ public class MainActivity extends FragmentActivity implements
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		super.onCreate(savedInstanceState);
+	
 		setContentView(R.layout.activity_main);
 
 		gridView = (GridView) findViewById(R.id.gridView_gallery);
@@ -175,7 +176,7 @@ public class MainActivity extends FragmentActivity implements
 		if (c != null && c.getCount() > 0) {
 			items = new ArrayList<AlbumItem>();
 			for (int i = 0; i < c.getCount(); i++) {
-				AlbumItem item = new AlbumItem(c.getString(1), c.getString(2),
+				AlbumItem item = new AlbumItem(c.getInt(0),c.getString(1), c.getString(2),
 						c.getString(3), c.getString(4), c.getString(5),
 						c.getString(6), c.getString(7));
 				items.add(item);
@@ -366,7 +367,7 @@ public class MainActivity extends FragmentActivity implements
 		if (c != null && c.getCount() > 0) {
 			items = new ArrayList<AlbumItem>();
 			for (int i = 0; i < c.getCount(); i++) {
-				AlbumItem item = new AlbumItem(c.getString(1), c.getString(2),
+				AlbumItem item = new AlbumItem(c.getInt(0),c.getString(1), c.getString(2),
 						c.getString(3), c.getString(4), c.getString(5),
 						c.getString(6), c.getString(7));
 				items.add(item);
@@ -389,7 +390,7 @@ public class MainActivity extends FragmentActivity implements
 		if (c != null && c.getCount() > 0) {
 			items = new ArrayList<AlbumItem>();
 			for (int i = 0; i < c.getCount(); i++) {
-				AlbumItem item = new AlbumItem(c.getString(1), c.getString(2),
+				AlbumItem item = new AlbumItem(c.getInt(0),c.getString(1), c.getString(2),
 						c.getString(3), c.getString(4), c.getString(5),
 						c.getString(6), c.getString(7));
 				items.add(item);

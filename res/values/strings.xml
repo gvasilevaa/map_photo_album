@@ -9,6 +9,10 @@
     <!-- Error messages -->
     <string name="exc_error">Error</string>
     <string name="exc_ok">OK</string>
+    <string name="fail_update_item">Couldn\'t update this Item!</string>
+
+    <!-- Success messages -->
+    <string name="success_update_item">You have successfully updated this Item!</string>
 
     <!-- Gallery Screen -->
     <string name="gallery">Gallery</string>
@@ -27,10 +31,12 @@
     <string name="cancel">Cancel</string>
     <string name="set_date">Set date</string>
     <string name="info">Information</string>
-     <string name="save">Save</string>
+    <string name="edit_details">Edit Details</string>
+    <string name="save">Save</string>
     <string name="title">Title</string>
     <string name="description">Desctioption</string>
     <string name="created_at">Created At</string>
     <string name="address">Address</string>
+    <string name="title_activity_item_details">ItemDetails</string>
 
 </resources>

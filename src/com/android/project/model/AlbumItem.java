@@ -57,7 +57,7 @@ public class AlbumItem implements ApplicationConstants, Serializable{
 			+ " nvarchar(70), "
 			+ GET_COLUMNS.DESCRIPTION.getName() + " text);";
 
-
+	private int id;
 	private String name;
 	private String thumbnail;
 	private String latitude;
@@ -65,6 +65,7 @@ public class AlbumItem implements ApplicationConstants, Serializable{
 	private String address;
 	private String createdAt;
 	private String desctioption;
+	
 
 	/*
 	 * Create empty AlbumItem
@@ -77,13 +78,14 @@ public class AlbumItem implements ApplicationConstants, Serializable{
 
 	/**
 	 * Creates a new AlbumItem object from a params
+	 * @param di 
 	 * 
 	 * 
 	 */
-	public AlbumItem(String name, String thumbnail, String latitude,
+	public AlbumItem(int id, String name, String thumbnail, String latitude,
 			String longitude, String address, String createdAt,
 			String desctioption) {
-
+		this.id = id;
 		this.address = address;
 		this.createdAt = createdAt;
 		this.desctioption = desctioption;
@@ -101,7 +103,7 @@ public class AlbumItem implements ApplicationConstants, Serializable{
 	 */
 	public ContentValues getContentValues() {
 		ContentValues values = new ContentValues();
-
+		values.put(GET_COLUMNS.ID.getName(), this.id);
 		values.put(GET_COLUMNS.NAME.getName(), this.name);
 		values.put(GET_COLUMNS.THUMBNAIL.getName(), this.thumbnail);
 		values.put(GET_COLUMNS.LATITUDE.getName(), this.latitude);
@@ -164,9 +166,18 @@ public class AlbumItem implements ApplicationConstants, Serializable{
 	}
 
 	// getter an setters for Item fields
+	
 
 	public String getName() {
 		return name;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public void setName(String name) {

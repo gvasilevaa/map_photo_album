@@ -1,9 +1,11 @@
 package com.android.project.model;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 
 import com.android.project.db.DBConnector;
 import com.android.project.db.DBException;
+import com.android.project.db.DBSQLException;
 
 public class AlbumItemManager {
 
@@ -66,12 +68,27 @@ public class AlbumItemManager {
 	}
 
 	/*
+	 * Update row from DB
+	 */
+
+	public int updateItem(ContentValues values) throws DBSQLException, DBException {
+		return DBConnector.getInstance().update(
+				AlbumItem.SQL_TABLE_NAME,
+				values,
+				AlbumItem.GET_COLUMNS.ID.getName()
+						+ "="
+						+ values.getAsInteger(AlbumItem.GET_COLUMNS.ID
+								.getName()), null);
+
+	}
+
+	/*
 	 * Get sorted Items by name
 	 */
 
-//	String name, String thumbnail, String latitude,
-//	String longitude, String address, String createdAt,
-//	String desctioption
+	// String name, String thumbnail, String latitude,
+	// String longitude, String address, String createdAt,
+	// String desctioption
 	public Cursor getByNameItems() throws DBException {
 
 		return DBConnector.getInstance().query(
@@ -101,7 +118,7 @@ public class AlbumItemManager {
 						AlbumItem.GET_COLUMNS.LONGITUDE.getName(),
 						AlbumItem.GET_COLUMNS.ADDRESS.getName(),
 						AlbumItem.GET_COLUMNS.CREATED_AT.getName(),
-						AlbumItem.GET_COLUMNS.DESCRIPTION.getName()}, null,
+						AlbumItem.GET_COLUMNS.DESCRIPTION.getName() }, null,
 				null, AlbumItem.GET_COLUMNS.CREATED_AT.getName() + " desc");
 	}
 

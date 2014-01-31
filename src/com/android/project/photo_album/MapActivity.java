@@ -54,6 +54,8 @@ public class MapActivity extends FragmentActivity implements
 	private LocationClient mLocationClient;
 	private ArrayList<AlbumItem> items;
 	private GetAddressTask getAddress;
+	private double lat;
+	private double lon;
 
 	private static final LocationRequest REQUEST = LocationRequest.create()
 			.setInterval(5 * 60 * 1000) // 5 mins
@@ -78,8 +80,9 @@ public class MapActivity extends FragmentActivity implements
 			public void onMapClick(LatLng point) {
 				Log.e("LAT", point.latitude + "");
 				Log.e("LON", point.longitude + "");
-				
 
+				lat = point.latitude;
+				lon = point.longitude;
 				getCityName(point);
 			}
 		});
@@ -242,19 +245,21 @@ public class MapActivity extends FragmentActivity implements
 
 	/*-------- Get Address from geopoint ----------------------*/
 	public void getCityName(LatLng point) {
-		
+
 		getAddress = new GetAddressTask(point, MapActivity.this) {
 
 			@Override
 			protected void onPostExecute(String address) {
-				
+
 				getAddress = null;
 				if (address != null) {
-					//Log.e("CITY", address);
-					
+					// Log.e("CITY", address);
+
 					Intent returnIntent = new Intent();
 					returnIntent.putExtra(ADDRESS, address);
-					setResult(RESULT_OK, returnIntent);        
+					returnIntent.putExtra(LAT, lat);
+					returnIntent.putExtra(LON, lon);
+					setResult(RESULT_OK, returnIntent);
 					finish();
 				}
 			}
