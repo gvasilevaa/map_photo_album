@@ -31,12 +31,15 @@ import com.android.project.model.ApplicationConstants;
 import com.android.project.tasks.GetUserCheckInsTask;
 import com.android.project.zoom.ZoomImagesActivity;
 
+
 ;
 
 public class MainActivity extends FragmentActivity implements
 		ApplicationConstants {
 
 	private final static String USER_PLACES = "http://int.f1rstt.com/api/users/me/checkins?auth_token=uojWKxf57QhqhxipAWqK&limit=10&page=1";
+	private final static String DETAILS = "details";
+	
 	private AlertDialog alert;
 	private GridView gridView;
 	private ListView listView;
@@ -67,11 +70,12 @@ public class MainActivity extends FragmentActivity implements
 
 			public boolean onItemLongClick(AdapterView<?> parentView,
 					View childView, int position, long id) {
-				Intent i = new Intent(MainActivity.this,
-						EditDetailsActivity.class);
-				i.putExtra(ITEMS, items.get(position));
-				startActivity(i);
-
+//				Intent i = new Intent(MainActivity.this,
+//						EditDetailsActivity.class);
+//				i.putExtra(ITEMS, items.get(position));
+//				startActivity(i);
+				ItemDetails.instance(items.get(position),MainActivity.this).show(
+						getSupportFragmentManager(), DETAILS);
 				return true;
 			}
 		});
@@ -81,10 +85,13 @@ public class MainActivity extends FragmentActivity implements
 			public boolean onItemLongClick(AdapterView<?> parentView,
 					View childView, int position, long id) {
 
-				Intent i = new Intent(MainActivity.this,
-						EditDetailsActivity.class);
-				i.putExtra(ITEMS, items.get(position));
-				startActivity(i);
+//				Intent i = new Intent(MainActivity.this,
+//						EditDetailsActivity.class);
+//				i.putExtra(ITEMS, items.get(position));
+//				startActivity(i);
+				ItemDetails.instance(items.get(position),MainActivity.this).show(
+						getSupportFragmentManager(), DETAILS);
+
 				return true;
 			}
 		});

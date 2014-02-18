@@ -103,7 +103,7 @@ public class AlbumItem implements ApplicationConstants, Serializable{
 	 */
 	public ContentValues getContentValues() {
 		ContentValues values = new ContentValues();
-		values.put(GET_COLUMNS.ID.getName(), this.id);
+		//values.put(GET_COLUMNS.ID.getName(), this.id);
 		values.put(GET_COLUMNS.NAME.getName(), this.name);
 		values.put(GET_COLUMNS.THUMBNAIL.getName(), this.thumbnail);
 		values.put(GET_COLUMNS.LATITUDE.getName(), this.latitude);

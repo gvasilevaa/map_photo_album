@@ -21,6 +21,8 @@
     <string name="view_as">View as</string>
     <string name="grid">Table</string>
     <string name="list">List</string>
+     <string name="edit">EDIT</string>
+     <string name="delete">Delete</string>
 
     <!-- Map -->
     <string name="map">Map</string>
@@ -38,5 +40,6 @@
     <string name="created_at">Created At</string>
     <string name="address">Address</string>
     <string name="title_activity_item_details">ItemDetails</string>
+   
 
 </resources>

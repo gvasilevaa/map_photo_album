@@ -5,31 +5,6 @@
     android:background="#000"
     android:orientation="vertical" >
 
-    <include
-        android:layout_alignParentTop="true"
-        layout="@layout/simple_bar" />
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="50dp"
-          android:layout_alignParentTop="true"
-        android:background="@drawable/naviation_bar_bg"
-        android:gravity="center"
-        android:orientation="vertical" >
-
-        <TextView
-            android:id="@+id/navigationCaption"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/naviation_bar_bg"
-            android:clickable="true"
-            android:gravity="center_vertical"
-            android:padding="10dp"
-            android:text="@string/map"
-            android:textColor="#fff"
-            android:textSize="22sp" />
-    </LinearLayout>
-
     <ImageView
         android:id="@+id/zoom_image"
         android:layout_width="match_parent"
@@ -38,41 +13,15 @@
         android:contentDescription="@string/imageContentDescription"
         android:scaleType="fitXY" />
 
-    <!--
-    <RelativeLayout
-        android:id="@+id/user_data"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/edit"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:padding="10dp" >
-
-        <ImageView
-            android:id="@+id/user_image"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_alignParentLeft="true"
-            android:contentDescription="@string/imageContentDescription"
-            android:scaleType="centerInside" />
-
-        <LinearLayout
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="50dp"
-            android:orientation="vertical" >
-
-            <TextView
-                android:id="@+id/user_name"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#fff" />
-
-            <TextView
-                android:id="@+id/user_date_and_place"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:textColor="#fff" />
-        </LinearLayout>
-    </RelativeLayout>  -->
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:padding="10dp"
+        android:layout_margin="30dp"
+        android:text="@string/edit"
+        android:textColor="#fff" />
 
 </RelativeLayout>

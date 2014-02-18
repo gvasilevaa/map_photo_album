@@ -36,7 +36,7 @@
             android:value="AIzaSyB3gseCdXLGpIt0tyhu4YcRwhtm6TR_c5A" />
         <meta-data
             android:name="com.google.android.gms.version"
-            android:value="4030500" />
+            android:value="4132500" />
 
         <activity
             android:name="com.android.project.photo_album.MainActivity"
@@ -62,10 +62,6 @@
         <activity
             android:name="com.android.project.zoom.ZoomImagesActivity"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Light.NoTitleBar" >
-        </activity>
-        <activity
-            android:name="com.android.project.photo_album.ItemDetails"
             android:theme="@android:style/Theme.Light.NoTitleBar" >
         </activity>
     </application>
