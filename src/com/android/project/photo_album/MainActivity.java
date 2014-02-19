@@ -4,10 +4,13 @@ import java.util.ArrayList;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.preference.DialogPreference;
 import android.support.v4.app.FragmentActivity;
@@ -29,8 +32,8 @@ import com.android.project.model.AlbumItem;
 import com.android.project.model.AlbumItemManager;
 import com.android.project.model.ApplicationConstants;
 import com.android.project.tasks.GetUserCheckInsTask;
+import com.android.project.utils.CustomProgressDialog;
 import com.android.project.zoom.ZoomImagesActivity;
-
 
 ;
 
@@ -39,7 +42,7 @@ public class MainActivity extends FragmentActivity implements
 
 	private final static String USER_PLACES = "http://int.f1rstt.com/api/users/me/checkins?auth_token=uojWKxf57QhqhxipAWqK&limit=10&page=1";
 	private final static String DETAILS = "details";
-	
+
 	private AlertDialog alert;
 	private GridView gridView;
 	private ListView listView;
@@ -50,13 +53,15 @@ public class MainActivity extends FragmentActivity implements
 	private Cursor c = null;
 	private LayoutInflater inflater;
 
+	private CustomProgressDialog dialog;
+
 	/* ------------------- flags ----------------- */
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		this.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		super.onCreate(savedInstanceState);
-	
+
 		setContentView(R.layout.activity_main);
 
 		gridView = (GridView) findViewById(R.id.gridView_gallery);
@@ -70,12 +75,12 @@ public class MainActivity extends FragmentActivity implements
 
 			public boolean onItemLongClick(AdapterView<?> parentView,
 					View childView, int position, long id) {
-//				Intent i = new Intent(MainActivity.this,
-//						EditDetailsActivity.class);
-//				i.putExtra(ITEMS, items.get(position));
-//				startActivity(i);
-				ItemDetails.instance(items.get(position),MainActivity.this).show(
-						getSupportFragmentManager(), DETAILS);
+				// Intent i = new Intent(MainActivity.this,
+				// EditDetailsActivity.class);
+				// i.putExtra(ITEMS, items.get(position));
+				// startActivity(i);
+				ItemDetails.instance(items.get(position), MainActivity.this)
+						.show(getSupportFragmentManager(), DETAILS);
 				return true;
 			}
 		});
@@ -85,12 +90,12 @@ public class MainActivity extends FragmentActivity implements
 			public boolean onItemLongClick(AdapterView<?> parentView,
 					View childView, int position, long id) {
 
-//				Intent i = new Intent(MainActivity.this,
-//						EditDetailsActivity.class);
-//				i.putExtra(ITEMS, items.get(position));
-//				startActivity(i);
-				ItemDetails.instance(items.get(position),MainActivity.this).show(
-						getSupportFragmentManager(), DETAILS);
+				// Intent i = new Intent(MainActivity.this,
+				// EditDetailsActivity.class);
+				// i.putExtra(ITEMS, items.get(position));
+				// startActivity(i);
+				ItemDetails.instance(items.get(position), MainActivity.this)
+						.show(getSupportFragmentManager(), DETAILS);
 
 				return true;
 			}
@@ -121,6 +126,8 @@ public class MainActivity extends FragmentActivity implements
 				startActivity(i);
 			}
 		});
+
+		dialog = new CustomProgressDialog(MainActivity.this);
 	}
 
 	@Override
@@ -133,6 +140,7 @@ public class MainActivity extends FragmentActivity implements
 
 	@Override
 	protected void onPause() {
+
 		if (getPlaces != null) {
 			getPlaces.cancel(true);
 		}
@@ -141,7 +149,13 @@ public class MainActivity extends FragmentActivity implements
 
 	@Override
 	protected void onResume() {
-		getPlaces();
+		if (isNetworkAvailable()) {
+			getPlaces();
+		} else {
+			Toast.makeText(this,
+					getResources().getString(R.string.no_internet_conection),
+					Toast.LENGTH_LONG).show();
+		}
 		super.onResume();
 	}
 
@@ -183,9 +197,9 @@ public class MainActivity extends FragmentActivity implements
 		if (c != null && c.getCount() > 0) {
 			items = new ArrayList<AlbumItem>();
 			for (int i = 0; i < c.getCount(); i++) {
-				AlbumItem item = new AlbumItem(c.getInt(0),c.getString(1), c.getString(2),
-						c.getString(3), c.getString(4), c.getString(5),
-						c.getString(6), c.getString(7));
+				AlbumItem item = new AlbumItem(c.getInt(0), c.getString(1),
+						c.getString(2), c.getString(3), c.getString(4),
+						c.getString(5), c.getString(6), c.getString(7));
 				items.add(item);
 				c.moveToNext();
 			}
@@ -194,15 +208,17 @@ public class MainActivity extends FragmentActivity implements
 
 		} else {
 
+			dialog.show();
+
 			getPlaces = new GetUserCheckInsTask() {
 
 				@Override
 				protected void onPostExecute(final ArrayList<AlbumItem> places) {
 					getPlaces = null;
 					// showProgress(false);
-					// if (dialog != null && dialog.isShowing()) {
-					// dialog.dismiss();
-					// }
+					if (dialog != null && dialog.isShowing()) {
+						dialog.dismiss();
+					}
 
 					if (places != null && places.size() > 0) {
 						items = places;
@@ -222,7 +238,9 @@ public class MainActivity extends FragmentActivity implements
 				@Override
 				protected void onCancelled() {
 					getPlaces = null;
-
+					if (dialog != null && dialog.isShowing()) {
+						dialog.dismiss();
+					}
 					// showProgress(false);
 				}
 
@@ -245,6 +263,9 @@ public class MainActivity extends FragmentActivity implements
 				MainActivity.this, items);
 		listView.setAdapter(listAdapter);
 		listAdapter.notifyDataSetChanged();
+		if (dialog != null && dialog.isShowing()) {
+			dialog.dismiss();
+		}
 
 	}
 
@@ -374,9 +395,9 @@ public class MainActivity extends FragmentActivity implements
 		if (c != null && c.getCount() > 0) {
 			items = new ArrayList<AlbumItem>();
 			for (int i = 0; i < c.getCount(); i++) {
-				AlbumItem item = new AlbumItem(c.getInt(0),c.getString(1), c.getString(2),
-						c.getString(3), c.getString(4), c.getString(5),
-						c.getString(6), c.getString(7));
+				AlbumItem item = new AlbumItem(c.getInt(0), c.getString(1),
+						c.getString(2), c.getString(3), c.getString(4),
+						c.getString(5), c.getString(6), c.getString(7));
 				items.add(item);
 				c.moveToNext();
 			}
@@ -397,9 +418,9 @@ public class MainActivity extends FragmentActivity implements
 		if (c != null && c.getCount() > 0) {
 			items = new ArrayList<AlbumItem>();
 			for (int i = 0; i < c.getCount(); i++) {
-				AlbumItem item = new AlbumItem(c.getInt(0),c.getString(1), c.getString(2),
-						c.getString(3), c.getString(4), c.getString(5),
-						c.getString(6), c.getString(7));
+				AlbumItem item = new AlbumItem(c.getInt(0), c.getString(1),
+						c.getString(2), c.getString(3), c.getString(4),
+						c.getString(5), c.getString(6), c.getString(7));
 				items.add(item);
 				c.moveToNext();
 			}
@@ -407,6 +428,13 @@ public class MainActivity extends FragmentActivity implements
 			populateItems();
 		}
 
+	}
+
+	private boolean isNetworkAvailable() {
+		ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo activeNetworkInfo = connectivityManager
+				.getActiveNetworkInfo();
+		return activeNetworkInfo != null && activeNetworkInfo.isConnected();
 	}
 
 }

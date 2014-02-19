@@ -60,9 +60,9 @@ public class AlbumGridAdapter extends BaseAdapter {
 		imageView = null;
 		if (convertView == null) {
 
-			imageView = new ImageView(mContext);
+			imageView = new ImageView(parent.getContext());
 			DisplayMetrics metrics = new DisplayMetrics();
-			((Activity) this.mContext).getWindowManager().getDefaultDisplay()
+			((Activity) parent.getContext()).getWindowManager().getDefaultDisplay()
 					.getMetrics(metrics);
 			int size = (int) (70 * metrics.density);
 			imageView.setLayoutParams(new GridView.LayoutParams(size, size));

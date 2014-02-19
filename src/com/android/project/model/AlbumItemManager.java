@@ -33,6 +33,7 @@ public class AlbumItemManager {
 			result = DBConnector.getInstance().insert(AlbumItem.SQL_TABLE_NAME,
 					item.getContentValues());
 			mItem = item;
+			
 		} else {
 
 		}
@@ -41,7 +42,11 @@ public class AlbumItemManager {
 
 	/**
 	 * Get item form DB
+	 * @param itemId
+	 * @return Cursor
+	 * @throws DBException
 	 */
+	 
 	public Cursor getItem(long itemId) throws DBException {
 
 		return DBConnector.getInstance().query(
@@ -67,11 +72,16 @@ public class AlbumItemManager {
 				"select * from " + AlbumItem.SQL_TABLE_NAME);
 	}
 
-	/*
-	 * Update row from DB
+	/**
+	 * 
+	 * @param values
+	 * @return int count of updated items
+	 * @throws DBSQLException
+	 * @throws DBException
 	 */
 
-	public int updateItem(ContentValues values) throws DBSQLException, DBException {
+	public int updateItem(ContentValues values) throws DBSQLException,
+			DBException {
 		return DBConnector.getInstance().update(
 				AlbumItem.SQL_TABLE_NAME,
 				values,
@@ -82,13 +92,12 @@ public class AlbumItemManager {
 
 	}
 
-	/*
-	 * Get sorted Items by name
+	/**
+	 * Gets all items sorted by name
+	 * 
+	 * @return Cursor
+	 * @throws DBException
 	 */
-
-	// String name, String thumbnail, String latitude,
-	// String longitude, String address, String createdAt,
-	// String desctioption
 	public Cursor getByNameItems() throws DBException {
 
 		return DBConnector.getInstance().query(
@@ -104,8 +113,11 @@ public class AlbumItemManager {
 				null, AlbumItem.GET_COLUMNS.NAME.getName() + " ASC");
 	}
 
-	/*
-	 * Get sorted Items by name
+	/**
+	 * Gets sorted items by date
+	 * 
+	 * @return Cursor
+	 * @throws DBException
 	 */
 	public Cursor getByDateItems() throws DBException {
 
@@ -119,7 +131,7 @@ public class AlbumItemManager {
 						AlbumItem.GET_COLUMNS.ADDRESS.getName(),
 						AlbumItem.GET_COLUMNS.CREATED_AT.getName(),
 						AlbumItem.GET_COLUMNS.DESCRIPTION.getName() }, null,
-				null, AlbumItem.GET_COLUMNS.CREATED_AT.getName() + " desc");
+				null, AlbumItem.GET_COLUMNS.CREATED_AT.getName() + " ASC");
 	}
 
 	/**
@@ -127,7 +139,7 @@ public class AlbumItemManager {
 	 * 
 	 * @throws DBException
 	 */
-	public void deleteAllProducts() throws DBException {
+	public void deleteAllItems() throws DBException {
 		DBConnector.getInstance().delete(AlbumItem.SQL_TABLE_NAME, null, null);
 	}
 
@@ -135,7 +147,7 @@ public class AlbumItemManager {
 	 * Deletes a particular Item from the local DB
 	 * 
 	 */
-	public void deleteProduct(long itemId) throws DBException {
+	public void deleteItem(int itemId) throws DBException {
 		DBConnector.getInstance().delete(AlbumItem.SQL_TABLE_NAME,
 				AlbumItem.GET_COLUMNS.ID.getName() + "=" + itemId, null);
 

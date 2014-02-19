@@ -164,23 +164,32 @@ public class MapActivity extends FragmentActivity implements
 	}
 
 	private void setUpMap() {
+		double lat;
+		double lon;
+		if (items != null && items.size() > 0) {
 
-		Location location = mLocationClient.getLastLocation();
-		double lat = Double.parseDouble(items.get(0).getLatitude());
-		double lon = Double.parseDouble(items.get(0).getLongitude());
+			lat = Double.parseDouble(items.get(0).getLatitude());
+			lon = Double.parseDouble(items.get(0).getLongitude());
+			for (int i = 0; i < items.size(); i++) {
+				Log.d("Item", items.get(i).getLatitude());
+				createMarker(items.get(i));
+
+			}
+		} else {
+		
+			Location location = mLocationClient.getLastLocation();
+			Log.d("LOCATION",location+ "" );
+			lat = location.getLatitude();
+			lon = location.getLongitude();
+			mMap.setMyLocationEnabled(true);
+		}
 
 		mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,
 				lon), 15));
 
 		mLocationClient.removeLocationUpdates(this);
 
-		for (int i = 0; i < items.size(); i++) {
-			Log.d("Item", items.get(i).getLatitude());
-			createMarker(items.get(i));
-
-		}
-
-		// getFriendsCheckins(lat, lon);
+		
 
 	}
 
@@ -243,7 +252,7 @@ public class MapActivity extends FragmentActivity implements
 		return bitmap;
 	}
 
-	/*-------- Get Address from geopoint ----------------------*/
+	/*-------- Get Address from Geopoint ----------------------*/
 	public void getCityName(LatLng point) {
 
 		getAddress = new GetAddressTask(point, MapActivity.this) {

@@ -5,11 +5,16 @@
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="imageContentDescription">Image</string>
+    <string name="are_you_sure">Are you sure!</string>
+    
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
     <!-- Error messages -->
     <string name="exc_error">Error</string>
     <string name="exc_ok">OK</string>
     <string name="fail_update_item">Couldn\'t update this Item!</string>
+     <string name="no_internet_conection">Album needs you to turn ON your internet conection to get started :) </string>
 
     <!-- Success messages -->
     <string name="success_update_item">You have successfully updated this Item!</string>
@@ -21,8 +26,8 @@
     <string name="view_as">View as</string>
     <string name="grid">Table</string>
     <string name="list">List</string>
-     <string name="edit">EDIT</string>
-     <string name="delete">Delete</string>
+    <string name="edit">EDIT</string>
+    <string name="delete">Delete</string>
 
     <!-- Map -->
     <string name="map">Map</string>
@@ -40,6 +45,5 @@
     <string name="created_at">Created At</string>
     <string name="address">Address</string>
     <string name="title_activity_item_details">ItemDetails</string>
-   
 
 </resources>

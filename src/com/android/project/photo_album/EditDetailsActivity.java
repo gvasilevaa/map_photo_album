@@ -65,7 +65,8 @@ public class EditDetailsActivity extends FragmentActivity implements
 		address_edittxt.setText(item.getAddress());
 		date_edittxt.setText(item.getCreatedAt());
 		description_edittxt.setText(item.getDesctioption());
-
+		lat = Double.parseDouble(item.getLatitude());
+		lon = Double.parseDouble(item.getLongitude());
 	}
 
 	@Override
@@ -76,7 +77,7 @@ public class EditDetailsActivity extends FragmentActivity implements
 				String address = data.getStringExtra(ADDRESS);
 				lat = data.getDoubleExtra(LAT, 0);
 				lon = data.getDoubleExtra(LON, 0);
-				//Log.e("RESULT ADDRESS", address);
+				// Log.e("RESULT ADDRESS", address);
 				address_edittxt.setText(address);
 
 			}
@@ -99,26 +100,39 @@ public class EditDetailsActivity extends FragmentActivity implements
 		i.putExtra(ITEMS, items);
 		startActivityForResult(i, ADDRESS_REQUEST_CODE);
 	}
-
+	
+	/**
+	 * Updates the record for the current item
+	 * @param view
+	 * @throws DBSQLException
+	 * @throws DBException
+	 */
 	public void OnSaveClick(View view) throws DBSQLException, DBException {
 
 		ContentValues values = new ContentValues();
 		values.put(AlbumItem.GET_COLUMNS.ID.getName(), item.getId());
-		values.put(AlbumItem.GET_COLUMNS.NAME.getName(), title_edittxt.getText().toString());
-		values.put(AlbumItem.GET_COLUMNS.ADDRESS.getName(), address_edittxt.getText().toString());
+		values.put(AlbumItem.GET_COLUMNS.NAME.getName(), title_edittxt
+				.getText().toString());
+		values.put(AlbumItem.GET_COLUMNS.ADDRESS.getName(), address_edittxt
+				.getText().toString());
 		values.put(AlbumItem.GET_COLUMNS.LATITUDE.getName(), lat);
 		values.put(AlbumItem.GET_COLUMNS.LONGITUDE.getName(), lon);
-		values.put(AlbumItem.GET_COLUMNS.CREATED_AT.getName(), date_edittxt.getText().toString());
-		values.put(AlbumItem.GET_COLUMNS.DESCRIPTION.getName(), description_edittxt.getText().toString());
+		values.put(AlbumItem.GET_COLUMNS.CREATED_AT.getName(), date_edittxt
+				.getText().toString());
+		values.put(AlbumItem.GET_COLUMNS.DESCRIPTION.getName(),
+				description_edittxt.getText().toString());
 		int count = AlbumItemManager.getInstance().updateItem(values);
-		
-		if(count>0){
-			Toast.makeText(EditDetailsActivity.this,getResources().getString(R.string.success_update_item), Toast.LENGTH_SHORT).show();
+
+		if (count > 0) {
+			Toast.makeText(EditDetailsActivity.this,
+					getResources().getString(R.string.success_update_item),
+					Toast.LENGTH_SHORT).show();
+		} else {
+			Toast.makeText(EditDetailsActivity.this,
+					getResources().getString(R.string.fail_update_item),
+					Toast.LENGTH_SHORT).show();
 		}
-		else{
-			Toast.makeText(EditDetailsActivity.this,getResources().getString(R.string.fail_update_item), Toast.LENGTH_SHORT).show();
-		}
-			
-		Log.e("COUNT UPDATED ITEMS", count + "");
+
+		finish();
 	}
 }

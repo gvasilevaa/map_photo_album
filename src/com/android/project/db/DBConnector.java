@@ -154,7 +154,7 @@ public class DBConnector extends SQLiteOpenHelper {
 	public synchronized long insert(String table, ContentValues values)
 			throws DBSQLException {
 		try {
-			Log.d("DBConnector", "inserting values:"+values+" in table :"+table);
+			
 			return this.sqlite.insert(table, null, values);
 		} catch (SQLException e) {
 			e.printStackTrace();
