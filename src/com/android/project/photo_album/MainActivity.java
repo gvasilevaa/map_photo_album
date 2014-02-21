@@ -208,46 +208,46 @@ public class MainActivity extends FragmentActivity implements
 
 		} else {
 
-			dialog.show();
-
-			getPlaces = new GetUserCheckInsTask() {
-
-				@Override
-				protected void onPostExecute(final ArrayList<AlbumItem> places) {
-					getPlaces = null;
-					// showProgress(false);
-					if (dialog != null && dialog.isShowing()) {
-						dialog.dismiss();
-					}
-
-					if (places != null && places.size() > 0) {
-						items = places;
-
-						populateItems();
-
-					} else {
-
-						Toast.makeText(MainActivity.this,
-								"Sotty couldn't fetch places! ",
-								Toast.LENGTH_SHORT).show();
-
-					}
-
-				}
-
-				@Override
-				protected void onCancelled() {
-					getPlaces = null;
-					if (dialog != null && dialog.isShowing()) {
-						dialog.dismiss();
-					}
-					// showProgress(false);
-				}
-
-			};
-
-			getPlaces.execute(USER_PLACES);
-
+//			dialog.show();
+//
+//			getPlaces = new GetUserCheckInsTask() {
+//
+//				@Override
+//				protected void onPostExecute(final ArrayList<AlbumItem> places) {
+//					getPlaces = null;
+//					// showProgress(false);
+//					if (dialog != null && dialog.isShowing()) {
+//						dialog.dismiss();
+//					}
+//
+//					if (places != null && places.size() > 0) {
+//						items = places;
+//
+//						populateItems();
+//
+//					} else {
+//
+//						Toast.makeText(MainActivity.this,
+//								"Sotty couldn't fetch places! ",
+//								Toast.LENGTH_SHORT).show();
+//
+//					}
+//
+//				}
+//
+//				@Override
+//				protected void onCancelled() {
+//					getPlaces = null;
+//					if (dialog != null && dialog.isShowing()) {
+//						dialog.dismiss();
+//					}
+//					// showProgress(false);
+//				}
+//
+//			};
+//
+//			getPlaces.execute(USER_PLACES);
+//
 		}
 
 	}
@@ -336,6 +336,11 @@ public class MainActivity extends FragmentActivity implements
 		// view.setSelected(false);
 		// // view.setBackgroundResource(R.drawable.table_icon);
 		// }
+	}
+	
+	public void onCreateClick(View v){
+		Intent i = new Intent(MainActivity.this, AddItemActivity.class);
+		startActivity(i);
 	}
 
 	public void sortOnClick(View view) {

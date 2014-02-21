@@ -6,15 +6,17 @@
     <string name="hello_world">Hello world!</string>
     <string name="imageContentDescription">Image</string>
     <string name="are_you_sure">Are you sure!</string>
-    
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="create">Create</string>
+    <string name="photo_picker_place">Choose a photo for this place</string>
 
     <!-- Error messages -->
     <string name="exc_error">Error</string>
+    <string name="cant_load_photo">Can\'t load photo!</string>
     <string name="exc_ok">OK</string>
     <string name="fail_update_item">Couldn\'t update this Item!</string>
-     <string name="no_internet_conection">Album needs you to turn ON your internet conection to get started :) </string>
+    <string name="no_internet_conection">Album needs you to turn ON your internet conection to get started :) </string>
 
     <!-- Success messages -->
     <string name="success_update_item">You have successfully updated this Item!</string>
@@ -45,5 +47,6 @@
     <string name="created_at">Created At</string>
     <string name="address">Address</string>
     <string name="title_activity_item_details">ItemDetails</string>
+    <string name="title_activity_add_item">AddItemActivity</string>
 
 </resources>

@@ -7,6 +7,19 @@
 
     <include layout="@layout/gallery_navigation_bar" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="#F08500"
+        android:clickable="true"
+        android:gravity="center"
+        android:onClick="onCreateClick"
+        android:padding="15dp"
+        android:text="@string/create"
+        android:textColor="#fff"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
     <GridView
         android:id="@+id/gridView_gallery"
         android:layout_width="match_parent"

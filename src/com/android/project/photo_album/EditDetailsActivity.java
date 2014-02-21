@@ -25,7 +25,6 @@ public class EditDetailsActivity extends FragmentActivity implements
 		ApplicationConstants {
 
 	private final static int ADDRESS_REQUEST_CODE = 1;
-
 	private AlbumItem item;
 	private EditText title_edittxt;
 	private EditText address_edittxt;
@@ -100,9 +99,10 @@ public class EditDetailsActivity extends FragmentActivity implements
 		i.putExtra(ITEMS, items);
 		startActivityForResult(i, ADDRESS_REQUEST_CODE);
 	}
-	
+
 	/**
 	 * Updates the record for the current item
+	 * 
 	 * @param view
 	 * @throws DBSQLException
 	 * @throws DBException

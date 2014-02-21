@@ -9,6 +9,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.location.Address;
 import android.location.Geocoder;
@@ -23,8 +24,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.ViewGroup.LayoutParams;
+import android.webkit.MimeTypeMap;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.android.project.imagefetcher.ImageFetcher;
 import com.android.project.model.AlbumItem;
 import com.android.project.model.ApplicationConstants;
 import com.android.project.tasks.DownloadImageTask;
@@ -56,6 +60,8 @@ public class MapActivity extends FragmentActivity implements
 	private GetAddressTask getAddress;
 	private double lat;
 	private double lon;
+	private boolean create;
+	private ImageFetcher mImageFetcher;
 
 	private static final LocationRequest REQUEST = LocationRequest.create()
 			.setInterval(5 * 60 * 1000) // 5 mins
@@ -71,15 +77,17 @@ public class MapActivity extends FragmentActivity implements
 		SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
 				.findFragmentById(R.id.map);
 		mMap = mapFragment.getMap();
-
+		mImageFetcher = com.android.project.imagefetcher.Utils
+				.getImageFetcher(this);
+		mMap.clear();
 		items = (ArrayList<AlbumItem>) getIntent().getSerializableExtra(ITEMS);
+
+		// create = getIntent().getBooleanExtra(CREATE, false);
 
 		mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 
 			@Override
 			public void onMapClick(LatLng point) {
-				Log.e("LAT", point.latitude + "");
-				Log.e("LON", point.longitude + "");
 
 				lat = point.latitude;
 				lon = point.longitude;
@@ -176,20 +184,18 @@ public class MapActivity extends FragmentActivity implements
 
 			}
 		} else {
-		
+
 			Location location = mLocationClient.getLastLocation();
-			Log.d("LOCATION",location+ "" );
+			Log.d("LOCATION", location + "");
 			lat = location.getLatitude();
 			lon = location.getLongitude();
 			mMap.setMyLocationEnabled(true);
 		}
 
 		mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,
-				lon), 15));
+				lon), 12));
 
 		mLocationClient.removeLocationUpdates(this);
-
-		
 
 	}
 
@@ -209,27 +215,43 @@ public class MapActivity extends FragmentActivity implements
 		final ImageView imageViewNormal = (ImageView) viewNormalMarker
 				.findViewById(R.id.imageClusterIcon);
 
-		DownloadImageTask downloadImageTask = new DownloadImageTask() {
-			@Override
-			protected void onPostExecute(final Bitmap image) {
+		// DownloadImageTask downloadImageTask = new DownloadImageTask() {
+		// @Override
+		// protected void onPostExecute(final Bitmap image) {
 
-				/* set marker normal */
-				imageViewNormal.setImageBitmap(image);
-				markerOp.position(new LatLng(lat, lng));
-				BitmapDescriptor icon = BitmapDescriptorFactory
-						.fromBitmap(createDrawableFromView(MapActivity.this,
-								viewNormalMarker));
-				markerOp.icon(icon);
-				markerOp.visible(true);
-				mMap.addMarker(markerOp);
+		/* set marker normal */
+//		try {
+//			Bitmap bmImg = BitmapFactory.decodeFile(place.getThumbnail());
+//			imageViewNormal.setImageBitmap(bmImg);
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//		} catch (OutOfMemoryError e) {
+//			e.printStackTrace();
+//			Toast.makeText(getApplicationContext(),
+//					getResources().getString(R.string.exc_error),
+//					Toast.LENGTH_LONG).show();
+//			finish();
+//
+//		}
 
-				// mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
-				// new LatLng(lat, lng), 15));
+		
+		Bitmap bm = ImageFetcher.decodeSampledBitmapFromFile(place.getThumbnail(), 50, 50);
+		imageViewNormal.setImageBitmap(bm);
+		markerOp.position(new LatLng(lat, lng));
+		BitmapDescriptor icon = BitmapDescriptorFactory
+				.fromBitmap(createDrawableFromView(MapActivity.this,
+						viewNormalMarker));
+		markerOp.icon(icon);
+		markerOp.visible(true);
+		mMap.addMarker(markerOp);
 
-			}
-		};
+		// mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(
+		// new LatLng(lat, lng), 15));
 
-		downloadImageTask.execute(place.getThumbnail());
+		// }
+		// };
+		//
+		// downloadImageTask.execute(place.getThumbnail());
 	}
 
 	// Convert a view to bitmap

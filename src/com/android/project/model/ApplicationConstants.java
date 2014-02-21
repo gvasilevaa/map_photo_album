@@ -24,9 +24,17 @@ public interface ApplicationConstants {
 	public static final String MARKER = "marker";
 	public static final String PLACE = "place";
 	public static final String CREATED_AT = "created_at";
-	
+	public static final String CREATE = "create";
 	public static final String POSITION = "position";
 	
 	public static final String ITEMS = "items";
+	
+	/* =============== CONSTANTS =============== */
+	public static final int IMAGE_LIMIT_SIZE = 5;
+	public static final String TYPE_IMAGE = "image/*";
+	public static final String KEY_DATA = "data";
+	public static final int SELECT_PICTURE = 10;
+	
+	public static final String PLACE_PHOTO_FILE = "place_photo.png";
 
 }

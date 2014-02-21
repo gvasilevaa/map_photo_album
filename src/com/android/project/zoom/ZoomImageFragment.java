@@ -176,6 +176,8 @@ public class ZoomImageFragment extends Fragment implements ApplicationConstants 
 						Intent i = new Intent(getActivity(), MapActivity.class);
 						i.putExtra(ITEMS, arrayItems);
 						startActivity(i);
+						
+						dialog.dismiss();
 					}
 				});
 
