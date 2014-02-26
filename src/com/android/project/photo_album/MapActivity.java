@@ -13,6 +13,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.LocationManager;
 
 import android.location.Location;
 import android.os.AsyncTask;
@@ -33,6 +34,7 @@ import com.android.project.model.AlbumItem;
 import com.android.project.model.ApplicationConstants;
 import com.android.project.tasks.DownloadImageTask;
 import com.android.project.tasks.GetAddressTask;
+
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
 import com.google.android.gms.common.GooglePlayServicesClient.OnConnectionFailedListener;
@@ -51,7 +53,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class MapActivity extends FragmentActivity implements
-		ConnectionCallbacks, OnConnectionFailedListener, LocationListener,
+		ConnectionCallbacks, OnConnectionFailedListener, LocationListener,android.location.LocationListener,
 		ApplicationConstants {
 
 	private GoogleMap mMap;
@@ -62,6 +64,7 @@ public class MapActivity extends FragmentActivity implements
 	private double lon;
 	private boolean create;
 	private ImageFetcher mImageFetcher;
+	private LocationManager manager;
 
 	private static final LocationRequest REQUEST = LocationRequest.create()
 			.setInterval(5 * 60 * 1000) // 5 mins
@@ -82,8 +85,11 @@ public class MapActivity extends FragmentActivity implements
 		mMap.clear();
 		items = (ArrayList<AlbumItem>) getIntent().getSerializableExtra(ITEMS);
 
+		manager = (LocationManager) MapActivity.this
+				.getSystemService(Context.LOCATION_SERVICE);
 		// create = getIntent().getBooleanExtra(CREATE, false);
 
+		
 		mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 
 			@Override
@@ -94,7 +100,8 @@ public class MapActivity extends FragmentActivity implements
 				getCityName(point);
 			}
 		});
-		// setUpMap();
+		
+		//setUpMap();
 	}
 
 	@Override
@@ -104,8 +111,19 @@ public class MapActivity extends FragmentActivity implements
 		setUpMapIfNeeded();
 		setUpLocationClientIfNeeded();
 		mLocationClient.connect();
+		
+		manager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0,
+				this);
+
+		manager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 	}
 
+	 @Override
+	    protected void onStop() {
+	        // Disconnecting the client invalidates it.
+	        mLocationClient.disconnect();
+	        super.onStop();
+	    }
 	private void setUpLocationClientIfNeeded() {
 		if (mLocationClient == null) {
 			mLocationClient = new LocationClient(getApplicationContext(), this, // ConnectionCallbacks
@@ -149,7 +167,7 @@ public class MapActivity extends FragmentActivity implements
 
 	@Override
 	public void onLocationChanged(Location location) {
-
+		Log.d("DEBUG", "onLocationChanged");
 		if (mLocationClient != null && mLocationClient.isConnected()) {
 			setUpMap();
 		}
@@ -157,6 +175,8 @@ public class MapActivity extends FragmentActivity implements
 
 	@Override
 	public void onConnected(Bundle connectionHint) {
+		Log.d("DEBUG", "onConnected");
+		
 		mLocationClient.requestLocationUpdates(REQUEST, this); // LocationListener
 
 	}
@@ -178,6 +198,7 @@ public class MapActivity extends FragmentActivity implements
 
 			lat = Double.parseDouble(items.get(0).getLatitude());
 			lon = Double.parseDouble(items.get(0).getLongitude());
+			mMap.setMyLocationEnabled(true);
 			for (int i = 0; i < items.size(); i++) {
 				Log.d("Item", items.get(i).getLatitude());
 				createMarker(items.get(i));
@@ -195,7 +216,7 @@ public class MapActivity extends FragmentActivity implements
 		mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(lat,
 				lon), 12));
 
-		mLocationClient.removeLocationUpdates(this);
+		//mLocationClient.removeLocationUpdates(this);
 
 	}
 
@@ -234,7 +255,7 @@ public class MapActivity extends FragmentActivity implements
 //
 //		}
 
-		
+
 		Bitmap bm = ImageFetcher.decodeSampledBitmapFromFile(place.getThumbnail(), 50, 50);
 		imageViewNormal.setImageBitmap(bm);
 		markerOp.position(new LatLng(lat, lng));
@@ -298,6 +319,24 @@ public class MapActivity extends FragmentActivity implements
 		};
 
 		getAddress.execute();
+	}
+
+	@Override
+	public void onProviderDisabled(String provider) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onProviderEnabled(String provider) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onStatusChanged(String provider, int status, Bundle extras) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

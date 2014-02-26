@@ -58,5 +58,19 @@
         android:padding="15dp"
         android:text="@string/delete"
         android:textSize="18sp" />
+    
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#CCCCCC" />
+
+    <TextView
+        android:id="@+id/share"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        android:padding="15dp"
+        android:text="@string/delete"
+        android:textSize="18sp" />
 
 </LinearLayout>

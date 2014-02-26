@@ -6,7 +6,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 
-import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -17,6 +16,8 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -29,13 +30,22 @@ import com.android.project.model.AlbumItem;
 import com.android.project.model.AlbumItemManager;
 import com.android.project.model.ApplicationConstants;
 
+import com.facebook.LoggingBehavior;
+import com.facebook.Request;
+import com.facebook.Response;
+import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.Settings;
+import com.facebook.UiLifecycleHelper;
+import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
+
 public class AddItemActivity extends FragmentActivity implements
-		ApplicationConstants {
+		ApplicationConstants, ConnectionCallbacks {
 
 	private final static int ADDRESS_REQUEST_CODE = 1;
 
 	private AlbumItem item;
-	
+
 	private EditText title_edittxt;
 	private EditText address_edittxt;
 	private EditText date_edittxt;
@@ -54,6 +64,8 @@ public class AddItemActivity extends FragmentActivity implements
 
 	private File mPhotoFile;
 
+	private UiLifecycleHelper uiHelper;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -68,8 +80,40 @@ public class AddItemActivity extends FragmentActivity implements
 		mImageFetcher = com.android.project.imagefetcher.Utils
 				.getImageFetcher(this);
 
-	}
+//		uiHelper = new UiLifecycleHelper(this, statusCallback);
+//		uiHelper.onCreate(savedInstanceState);
+//
+//		Settings.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
+//		Session session = Session.getActiveSession();
+//		if (session == null) {
+//			if (savedInstanceState != null) {
+//				session = Session.restoreSession(this, null, statusCallback,
+//						savedInstanceState);
+//			}
+//			if (session == null) {
+//				session = new Session(this);
+//			}
+//			Session.setActiveSession(session);
+//			if (session.getState().equals(SessionState.CREATED_TOKEN_LOADED)) {
+//				session.openForRead(new Session.OpenRequest(this)
+//						.setCallback(statusCallback));
+//			}
+//		}
+//	}
 
+//	private String facebookToken = null;
+//	private Session.StatusCallback statusCallback = new SessionStatusCallback();
+//
+//	private Session session;
+//
+//	private class SessionStatusCallback implements Session.StatusCallback {
+//		@Override
+//		public void call(Session session, SessionState state,
+//				Exception exception) {
+//			// getUser();
+//		}
+//	}
+	}
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (requestCode == ADDRESS_REQUEST_CODE) {
@@ -121,23 +165,28 @@ public class AddItemActivity extends FragmentActivity implements
 					try {
 
 						if (cursor != null) {
-							
-//							Bitmap bitmap = BitmapFactory.decodeFile(imagePath);
-//							FileOutputStream fOut = new FileOutputStream(compressedPictureFile);
-//							boolean compressed = bitmap.compress(Bitmap.CompressFormat.PNG, 0, fOut);
-//							fOut.flush();
-//							fOut.close();
+
+							// Bitmap bitmap =
+							// BitmapFactory.decodeFile(imagePath);
+							// FileOutputStream fOut = new
+							// FileOutputStream(compressedPictureFile);
+							// boolean compressed =
+							// bitmap.compress(Bitmap.CompressFormat.PNG, 0,
+							// fOut);
+							// fOut.flush();
+							// fOut.close();
 							// Link to the image
 							imageFilePath = cursor.getString(0);
 							mPhotoFile = new File(imageFilePath);
 							cursor.close();
-							Bitmap bmImg = BitmapFactory.decodeFile(mPhotoFile.getAbsolutePath());
-							FileOutputStream fOut = new FileOutputStream(mPhotoFile);
+							Bitmap bmImg = BitmapFactory.decodeFile(mPhotoFile
+									.getAbsolutePath());
+							FileOutputStream fOut = new FileOutputStream(
+									mPhotoFile);
 							bmImg.compress(Bitmap.CompressFormat.PNG, 0, fOut);
 							fOut.flush();
 							fOut.close();
 							photo.setImageBitmap(bmImg);
-							
 
 						}
 
@@ -184,7 +233,7 @@ public class AddItemActivity extends FragmentActivity implements
 									outStream);
 							outStream.flush();
 							outStream.close();
-							
+
 							photo.setImageBitmap(picture);
 
 						} catch (FileNotFoundException e) {
@@ -257,8 +306,8 @@ public class AddItemActivity extends FragmentActivity implements
 
 		Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
-		Intent chooserIntent = Intent.createChooser(pickIntent,
-				getResources().getString(R.string.photo_picker_place));
+		Intent chooserIntent = Intent.createChooser(pickIntent, getResources()
+				.getString(R.string.photo_picker_place));
 		chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS,
 				new Intent[] { takePhotoIntent });
 
@@ -274,26 +323,35 @@ public class AddItemActivity extends FragmentActivity implements
 	 */
 	public void OnSaveClick(View view) throws DBSQLException, DBException {
 
-//		ContentValues values = new ContentValues();
-//		values.put(AlbumItem.GET_COLUMNS.ID.getName(), item.getId());
-//		values.put(AlbumItem.GET_COLUMNS.NAME.getName(), title_edittxt
-//				.getText().toString());
-//		values.put(AlbumItem.GET_COLUMNS.ADDRESS.getName(), address_edittxt
-//				.getText().toString());
-//		values.put(AlbumItem.GET_COLUMNS.LATITUDE.getName(), lat);
-//		values.put(AlbumItem.GET_COLUMNS.LONGITUDE.getName(), lon);
-//		values.put(AlbumItem.GET_COLUMNS.CREATED_AT.getName(), date_edittxt
-//				.getText().toString());
-//		values.put(AlbumItem.GET_COLUMNS.DESCRIPTION.getName(),
-//				description_edittxt.getText().toString());
+		// ContentValues values = new ContentValues();
+		// values.put(AlbumItem.GET_COLUMNS.ID.getName(), item.getId());
+		// values.put(AlbumItem.GET_COLUMNS.NAME.getName(), title_edittxt
+		// .getText().toString());
+		// values.put(AlbumItem.GET_COLUMNS.ADDRESS.getName(), address_edittxt
+		// .getText().toString());
+		// values.put(AlbumItem.GET_COLUMNS.LATITUDE.getName(), lat);
+		// values.put(AlbumItem.GET_COLUMNS.LONGITUDE.getName(), lon);
+		// values.put(AlbumItem.GET_COLUMNS.CREATED_AT.getName(), date_edittxt
+		// .getText().toString());
+		// values.put(AlbumItem.GET_COLUMNS.DESCRIPTION.getName(),
+		// description_edittxt.getText().toString());
 
 		name = title_edittxt.getText().toString();
 		address = address_edittxt.getText().toString();
 		date = date_edittxt.getText().toString();
 		description = description_edittxt.getText().toString();
+		
+		if(name==null || name.equals("")){
+			Toast.makeText(AddItemActivity.this, " Please enter Name",Toast.LENGTH_SHORT).show();
+			return;
+		}
+		
 
-		 if (mPhotoFile.getAbsolutePath() != null) {
+		if (mPhotoFile!=null && mPhotoFile.getAbsolutePath() != null) {
 			imagePath = mPhotoFile.getAbsolutePath();
+		}else{
+			Toast.makeText(AddItemActivity.this, "Please select and image",Toast.LENGTH_SHORT).show();
+			return;
 		}
 
 		AlbumItem item = new AlbumItem(1, name, imagePath, String.valueOf(lat),
@@ -313,4 +371,79 @@ public class AddItemActivity extends FragmentActivity implements
 
 		finish();
 	}
+
+//	@Override
+//	protected void onSaveInstanceState(Bundle outState) {
+//		super.onSaveInstanceState(outState);
+//		Session session = Session.getActiveSession();
+//		Session.saveSession(session, outState);
+//	}
+//
+//	private void onClickLogin() {
+//		session = Session.getActiveSession();
+//		if (!session.isOpened() && !session.isClosed()) {
+//			session.openForRead(new Session.OpenRequest(this)
+//					.setCallback(statusCallback));
+//		} else {
+//			Session.openActiveSession(this, true, statusCallback);
+//		}
+//	}
+
+	@Override
+	public void onConnected(Bundle connectionHint) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void onDisconnected() {
+		// TODO Auto-generated method stub
+
+	}
+
+//	public void onShareClick(View v) {
+//
+//		
+//
+//		// Part 1: create callback to get URL of uploaded photo
+//		Request.Callback uploadPhotoRequestCallback = new Request.Callback() {
+//			@Override
+//			public void onCompleted(Response response) {
+//				String fbPhotoAddress = null;
+//				// safety check
+//				if (isFinishing()) {
+//					return;
+//				}
+//				if (response.getError() != null) { // [IF Failed Posting]
+//					Log.d("Log",
+//							"photo upload problem. Error="
+//									+ response.getError());
+//				} // [ENDIF Failed Posting]
+//
+//				Object graphResponse = response.getGraphObject().getProperty(
+//						"id");
+//				if (graphResponse == null || !(graphResponse instanceof String)
+//						|| TextUtils.isEmpty((String) graphResponse)) { // [IF
+//																		// Failed
+//																		// upload/no
+//																		// results]
+//					Log.d("Log", "failed photo upload/no response");
+//				} else { // [ELSEIF successful upload]
+//					fbPhotoAddress = "https://www.facebook.com/photo.php?fbid="
+//							+ graphResponse;
+//				} // [ENDIF successful posting or not]
+//			} // [END onCompleted]
+//		};
+//
+//		if (mPhotoFile.getAbsolutePath() != null) {
+//			imagePath = mPhotoFile.getAbsolutePath();
+//		}
+//
+//		Bitmap bm = ImageFetcher.decodeSampledBitmapFromFile(imagePath, 50, 50);
+//		// Part 2: upload the photo
+//		Request request = Request.newUploadPhotoRequest(session, bm,
+//				uploadPhotoRequestCallback);
+//		request.executeAsync();
+//
+//	}
 }

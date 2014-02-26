@@ -7,15 +7,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.TextView;
 
 import com.android.project.db.DBException;
 import com.android.project.imagefetcher.ImageFetcher;
@@ -26,6 +27,8 @@ import com.android.project.model.ApplicationConstants;
 import com.android.project.photo_album.EditDetailsActivity;
 import com.android.project.photo_album.MapActivity;
 import com.android.project.photo_album.R;
+import com.facebook.Request;
+import com.facebook.Response;
 
 public class ZoomImageFragment extends Fragment implements ApplicationConstants {
 
@@ -104,6 +107,8 @@ public class ZoomImageFragment extends Fragment implements ApplicationConstants 
 				TextView map = (TextView) menu.findViewById(R.id.map);
 				TextView edit_details = (TextView) menu
 						.findViewById(R.id.edit_details);
+				
+				TextView share = (TextView)menu.findViewById(R.id.share);
 
 				edit_details.setOnClickListener(new View.OnClickListener() {
 
@@ -180,6 +185,15 @@ public class ZoomImageFragment extends Fragment implements ApplicationConstants 
 						dialog.dismiss();
 					}
 				});
+				
+				share.setOnClickListener(new View.OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						// TODO Auto-generated method stub
+						
+					}
+				});
 
 				dialog.show();
 
@@ -188,6 +202,9 @@ public class ZoomImageFragment extends Fragment implements ApplicationConstants 
 
 		return zoomView;
 	}
+
+	
+	
 
 	@Override
 	public void onDestroyView() {

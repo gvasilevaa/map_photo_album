@@ -7,7 +7,48 @@
     android:orientation="vertical"
     tools:context=".EditDetailsActivity" >
 
-    <include layout="@layout/edit_screen_bar" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_marginBottom="15dp"
+        android:background="@drawable/naviation_bar_bg" >
+
+        <TextView
+            android:id="@+id/navigationCaption"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/naviation_bar_bg"
+            android:clickable="true"
+            android:padding="10dp"
+            android:text="@string/create_item"
+            android:textColor="#fff"
+            android:textSize="22sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/save"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center_vertical"
+            android:background="@drawable/naviation_bar_bg"
+            android:clickable="true"
+            android:contentDescription="@drawable/menu_icon"
+            android:gravity="center"
+            android:onClick="OnSaveClick"
+            android:padding="10dp"
+            android:text="@string/save"
+            android:textColor="#fff"
+            android:textSize="18sp" />
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:layout_toLeftOf="@id/save"
+            android:background="#F7F7F7" />
+    </RelativeLayout>
 
     <ScrollView
         android:layout_width="match_parent"
@@ -145,8 +186,21 @@
                     android:hint="@string/description"
                     android:inputType="textAutoCorrect" />
             </RelativeLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#F08500"
+                android:text="@string/share"
+                android:onClick="onShareClick"
+                android:padding="10dp"
+                android:gravity="center"
+                android:textColor="#fff"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:visibility="gone" >
+            </TextView>
         </LinearLayout>
     </ScrollView>
-
 
 </LinearLayout>

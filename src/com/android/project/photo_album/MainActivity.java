@@ -4,15 +4,11 @@ import java.util.ArrayList;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.os.Bundle;
-import android.preference.DialogPreference;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -24,8 +20,6 @@ import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.android.project.db.DBConnector;
 import com.android.project.db.DBException;
 import com.android.project.model.AlbumItem;
@@ -149,13 +143,9 @@ public class MainActivity extends FragmentActivity implements
 
 	@Override
 	protected void onResume() {
-		if (isNetworkAvailable()) {
+		
 			getPlaces();
-		} else {
-			Toast.makeText(this,
-					getResources().getString(R.string.no_internet_conection),
-					Toast.LENGTH_LONG).show();
-		}
+		
 		super.onResume();
 	}
 
@@ -435,11 +425,5 @@ public class MainActivity extends FragmentActivity implements
 
 	}
 
-	private boolean isNetworkAvailable() {
-		ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-		NetworkInfo activeNetworkInfo = connectivityManager
-				.getActiveNetworkInfo();
-		return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-	}
-
+	
 }

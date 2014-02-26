@@ -2,8 +2,6 @@ package com.android.project.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
