@@ -1,9 +1,12 @@
 package com.android.project.zoom;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -25,10 +28,17 @@ import com.android.project.model.AlbumItem;
 import com.android.project.model.AlbumItemManager;
 import com.android.project.model.ApplicationConstants;
 import com.android.project.photo_album.EditDetailsActivity;
+import com.android.project.photo_album.FBActivity;
 import com.android.project.photo_album.MapActivity;
 import com.android.project.photo_album.R;
+
+import com.facebook.LoggingBehavior;
 import com.facebook.Request;
 import com.facebook.Response;
+import com.facebook.Session;
+import com.facebook.SessionState;
+import com.facebook.Settings;
+import com.facebook.UiLifecycleHelper;
 
 public class ZoomImageFragment extends Fragment implements ApplicationConstants {
 
@@ -36,10 +46,14 @@ public class ZoomImageFragment extends Fragment implements ApplicationConstants 
 
 	private static ImageFetcher mImageFetcher;
 
+	private static final List<String> PERMISSIONS = Arrays
+			.asList("publish_actions");
 	public static final String ARG_PAGE = "page";
 
 	private ImageView imageView;
 	private TextView edit;
+
+	/* Facebook share */
 
 	public static ZoomImageFragment newInstance(int position, AlbumItem item,
 			FragmentActivity mActivity) {
@@ -71,18 +85,26 @@ public class ZoomImageFragment extends Fragment implements ApplicationConstants 
 	public void onDestroy() {
 		super.onDestroy();
 		ImageFetcher.cancelWork(imageView);
+		
+	
 
 	}
 
+	
+
+	
+	
 	@Override
 	public View onCreateView(final LayoutInflater inflater,
 			ViewGroup container, Bundle savedInstanceState) {
+
 		ViewGroup zoomView = (ViewGroup) inflater.inflate(
 				R.layout.zoom_image_item, container, false);
 		imageView = (ImageView) zoomView.findViewById(R.id.zoom_image);
 		edit = (TextView) zoomView.findViewById(R.id.edit);
 
-		AlbumItem item = (AlbumItem) getArguments().getSerializable(ITEMS);
+		final AlbumItem item = (AlbumItem) getArguments()
+				.getSerializable(ITEMS);
 		if (getArguments().get(ITEMS) != null) {
 			mImageFetcher.loadImage(item.getThumbnail(), imageView);
 		}
@@ -107,8 +129,6 @@ public class ZoomImageFragment extends Fragment implements ApplicationConstants 
 				TextView map = (TextView) menu.findViewById(R.id.map);
 				TextView edit_details = (TextView) menu
 						.findViewById(R.id.edit_details);
-				
-				TextView share = (TextView)menu.findViewById(R.id.share);
 
 				edit_details.setOnClickListener(new View.OnClickListener() {
 
@@ -127,48 +147,48 @@ public class ZoomImageFragment extends Fragment implements ApplicationConstants 
 					@Override
 					public void onClick(View v) {
 						dialog.dismiss();
-						
+
 						final Dialog dialog = new Dialog(getActivity(),
 								R.style.CustomDialog);
 
-						View view = inflater.inflate(R.layout.delete_dialog_layout, null);
+						View view = inflater.inflate(
+								R.layout.delete_dialog_layout, null);
 						LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(
-								LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-						
-						
+								LayoutParams.MATCH_PARENT,
+								LayoutParams.MATCH_PARENT);
+
 						Button yes = (Button) view.findViewById(R.id.yes);
 						Button no = (Button) view.findViewById(R.id.no);
-						
+
 						yes.setOnClickListener(new View.OnClickListener() {
-							
+
 							@Override
 							public void onClick(View v) {
 								dialog.dismiss();
 								try {
-									AlbumItemManager.getInstance().deleteItem(getItem().getId());
+									AlbumItemManager.getInstance().deleteItem(
+											getItem().getId());
 									getActivity().finish();
 								} catch (DBException e) {
 									// TODO Auto-generated catch block
 									e.printStackTrace();
 								}
-								
+
 							}
 						});
-						
+
 						no.setOnClickListener(new View.OnClickListener() {
-							
+
 							@Override
 							public void onClick(View v) {
 								dialog.dismiss();
-								
+
 							}
 						});
-						
-						
-						dialog.setContentView(view, params);
-						
-						dialog.show();
 
+						dialog.setContentView(view, params);
+
+						dialog.show();
 					}
 				});
 
@@ -181,17 +201,8 @@ public class ZoomImageFragment extends Fragment implements ApplicationConstants 
 						Intent i = new Intent(getActivity(), MapActivity.class);
 						i.putExtra(ITEMS, arrayItems);
 						startActivity(i);
-						
+
 						dialog.dismiss();
-					}
-				});
-				
-				share.setOnClickListener(new View.OnClickListener() {
-					
-					@Override
-					public void onClick(View v) {
-						// TODO Auto-generated method stub
-						
 					}
 				});
 
@@ -203,8 +214,6 @@ public class ZoomImageFragment extends Fragment implements ApplicationConstants 
 		return zoomView;
 	}
 
-	
-	
 
 	@Override
 	public void onDestroyView() {

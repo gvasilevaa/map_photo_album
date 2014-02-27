@@ -31,7 +31,7 @@
         android:listSelector="@android:color/transparent"
         android:longClickable="true"
         android:verticalSpacing="5dp"
-        android:visibility="visible" >
+        android:visibility="gone" >
     </GridView>
 
     <ListView
@@ -42,7 +42,7 @@
         android:padding="10dp"
         android:listSelector="@android:color/transparent"
         android:longClickable="true"
-        android:visibility="gone" >
+        android:visibility="visible" >
     </ListView>
 
 </LinearLayout>

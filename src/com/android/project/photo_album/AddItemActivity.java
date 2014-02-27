@@ -30,13 +30,7 @@ import com.android.project.model.AlbumItem;
 import com.android.project.model.AlbumItemManager;
 import com.android.project.model.ApplicationConstants;
 
-import com.facebook.LoggingBehavior;
-import com.facebook.Request;
-import com.facebook.Response;
-import com.facebook.Session;
-import com.facebook.SessionState;
-import com.facebook.Settings;
-import com.facebook.UiLifecycleHelper;
+
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
 
 public class AddItemActivity extends FragmentActivity implements
@@ -64,7 +58,7 @@ public class AddItemActivity extends FragmentActivity implements
 
 	private File mPhotoFile;
 
-	private UiLifecycleHelper uiHelper;
+	//private UiLifecycleHelper uiHelper;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -341,11 +335,15 @@ public class AddItemActivity extends FragmentActivity implements
 		date = date_edittxt.getText().toString();
 		description = description_edittxt.getText().toString();
 		
+		if(address==null || address.equals("")){
+			Toast.makeText(AddItemActivity.this, " Please enter Address",Toast.LENGTH_SHORT).show();
+			return;
+		}
+		
 		if(name==null || name.equals("")){
 			Toast.makeText(AddItemActivity.this, " Please enter Name",Toast.LENGTH_SHORT).show();
 			return;
 		}
-		
 
 		if (mPhotoFile!=null && mPhotoFile.getAbsolutePath() != null) {
 			imagePath = mPhotoFile.getAbsolutePath();

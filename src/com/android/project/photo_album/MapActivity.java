@@ -6,7 +6,10 @@ import java.util.List;
 import java.util.Locale;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,6 +21,7 @@ import android.location.LocationManager;
 import android.location.Location;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.FragmentActivity;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -34,6 +38,7 @@ import com.android.project.model.AlbumItem;
 import com.android.project.model.ApplicationConstants;
 import com.android.project.tasks.DownloadImageTask;
 import com.android.project.tasks.GetAddressTask;
+
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesClient.ConnectionCallbacks;
@@ -90,6 +95,7 @@ public class MapActivity extends FragmentActivity implements
 		// create = getIntent().getBooleanExtra(CREATE, false);
 
 		
+		locationService();
 		mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
 
 			@Override
@@ -167,8 +173,8 @@ public class MapActivity extends FragmentActivity implements
 
 	@Override
 	public void onLocationChanged(Location location) {
-		Log.d("DEBUG", "onLocationChanged");
-		if (mLocationClient != null && mLocationClient.isConnected()) {
+		
+		if (mLocationClient != null && mLocationClient.isConnected()&&location!=null) {
 			setUpMap();
 		}
 	}
@@ -319,6 +325,49 @@ public class MapActivity extends FragmentActivity implements
 		};
 
 		getAddress.execute();
+	}
+
+	private void locationService() {
+
+		Builder d;
+		LocationManager lm = null;
+		boolean gps_enabled = false, network_enabled = false;
+		if (lm == null)
+			lm = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+		try {
+			gps_enabled = lm.isProviderEnabled(LocationManager.GPS_PROVIDER);
+		} catch (Exception ex) {
+		}
+		try {
+			network_enabled = lm
+					.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+		} catch (Exception ex) {
+		}
+
+		if (!gps_enabled && !network_enabled) {
+			d = new AlertDialog.Builder(this);
+			d.setTitle(R.string.location_disabled);
+			d.setMessage(R.string.location_access);
+			d.setPositiveButton(R.string.settings,
+					new DialogInterface.OnClickListener() {
+
+						@Override
+						public void onClick(
+								DialogInterface paramDialogInterface,
+								int paramInt) {
+
+							Intent myIntent = new Intent(
+									Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+							startActivity(myIntent);
+
+						}
+					});
+			d.setNegativeButton(R.string.cancel, null);
+			d.show();
+
+		}
+
 	}
 
 	@Override

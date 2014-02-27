@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.EditText;
@@ -76,6 +77,8 @@ public class EditDetailsActivity extends FragmentActivity implements
 				lat = data.getDoubleExtra(LAT, 0);
 				lon = data.getDoubleExtra(LON, 0);
 				// Log.e("RESULT ADDRESS", address);
+				item.setLatitude(String.valueOf(lat));
+				item.setLongitude(String.valueOf(lon));
 				address_edittxt.setText(address);
 
 			}
@@ -109,6 +112,7 @@ public class EditDetailsActivity extends FragmentActivity implements
 	public void OnSaveClick(View view) throws DBSQLException, DBException {
 
 		ContentValues values = new ContentValues();
+		Log.d("DEBUG", item.getId()+"");
 		values.put(AlbumItem.GET_COLUMNS.ID.getName(), item.getId());
 		values.put(AlbumItem.GET_COLUMNS.NAME.getName(), title_edittxt
 				.getText().toString());

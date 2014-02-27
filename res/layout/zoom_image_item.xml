@@ -20,6 +20,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:padding="10dp"
+        android:clickable="true"
         android:layout_margin="30dp"
         android:text="@string/edit"
         android:textColor="#fff" />
